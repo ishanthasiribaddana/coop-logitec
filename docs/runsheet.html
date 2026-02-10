@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Runsheet — MVDSMS | TecCoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Runsheet-specific styles */
+    .gantt-bar {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 48px;
+      border-radius: 12px;
+      overflow: hidden;
+      height: 48px;
+    }
+    .gantt-segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-direction: column;
+      line-height: 1.3;
+      cursor: pointer;
+      transition: filter 0.2s;
+    }
+    .gantt-segment:hover { filter: brightness(1.15); }
+    .gantt-segment span { font-size: 0.55rem; font-weight: 500; opacity: 0.85; }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+    .week-label {
+      padding: 12px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--gray-500);
+      text-align: center;
+      border-right: 2px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .week-row {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-100);
+      display: grid;
+      grid-template-columns: 1fr 1fr 140px;
+      gap: 16px;
+      align-items: start;
+    }
+    .week-row:hover { background: var(--gray-50); }
+    .week-task-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .week-task-detail {
+      font-size: 0.75rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+    .week-owner {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .owner-backend { background: var(--primary-light); color: var(--primary); }
+    .owner-frontend { background: var(--accent-light); color: var(--accent); }
+    .owner-mobile { background: var(--green-light); color: var(--green); }
+    .owner-devops { background: var(--orange-light); color: var(--orange); }
+    .owner-qa { background: var(--red-light); color: var(--red); }
+    .owner-pm { background: #e0f2fe; color: #0284c7; }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      border-radius: 14px;
+      margin-bottom: 24px;
+      color: white;
+    }
+    .phase-header h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+    .phase-header p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+    .phase-header-meta {
+      margin-left: auto;
+      text-align: right;
+    }
+    .phase-header-meta .dur {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    .phase-header-meta .dates {
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+
+    .milestone-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--white);
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .milestone-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--green-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .milestone-text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .milestone-sub {
+      font-size: 0.72rem;
+      color: var(--gray-600);
+      margin-top: 2px;
+    }
+
+    .dep-tag {
+      display: inline-block;
+      padding: 2px 6px;
+      background: var(--gray-100);
+      border-radius: 4px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-right: 4px;
+      margin-top: 4px;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .resource-card {
+      padding: 20px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .resource-card h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .resource-count {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .resource-card p {
+      font-size: 0.72rem;
+      color: var(--gray-600);
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      padding: 8px 0;
+      font-size: 0.85rem;
+      color: var(--gray-700);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .checklist li::before {
+      content: '☐';
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: -1px;
+    }
+
+    .summary-table td, .summary-table th {
+      padding: 10px 14px;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .week-row { grid-template-columns: 1fr; gap: 8px; }
+      .phase-header { flex-direction: column; text-align: center; }
+      .phase-header-meta { margin-left: 0; text-align: center; }
+      .gantt-segment { font-size: 0.55rem; }
+      .gantt-segment span { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><img src="logo.svg" alt="TecCoop"></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="database.html">Database</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="timeline.html">Timeline</a></li>
+        <li><a href="runsheet.html" class="active">Runsheet</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>Project Runsheet</h1>
+    <p>Week-by-week execution plan &mdash; 34 weeks across 6 phases with tasks, owners, deliverables &amp; milestones</p>
+    <p style="font-size:0.8rem;color:#e8a0ce;margin-top:8px;">Temco Bank Web Services &rarr; TecCoop &bull; MVDSMS v2.0</p>
+  </section>
+
+  <!-- GANTT OVERVIEW -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Overview</div>
+        <h2>34-Week Gantt Overview</h2>
+        <p>Click a phase to jump to its detailed week-by-week breakdown</p>
+      </div>
+
+      <div class="gantt-bar">
+        <a href="#phase1" class="gantt-segment" style="flex:6;background:var(--primary);">P1: Foundation<span>Wk 1–6</span></a>
+        <a href="#phase2" class="gantt-segment" style="flex:8;background:var(--accent);">P2: Core Operations<span>Wk 7–14</span></a>
+        <a href="#phase3" class="gantt-segment" style="flex:6;background:var(--green);">P3: Delivery & Logistics<span>Wk 15–20</span></a>
+        <a href="#phase4" class="gantt-segment" style="flex:6;background:var(--orange);">P4: Financial<span>Wk 21–26</span></a>
+        <a href="#phase5" class="gantt-segment" style="flex:4;background:#9b1b6e;">P5: Analytics<span>Wk 27–30</span></a>
+        <a href="#phase6" class="gantt-segment" style="flex:4;background:var(--red);">P6: Launch<span>Wk 31–34</span></a>
+      </div>
+
+      <!-- Resource Allocation -->
+      <div class="section-header" style="margin-top:0;">
+        <h2 style="font-size:1.3rem;">Team & Resource Allocation</h2>
+      </div>
+      <div class="resource-grid">
+        <div class="resource-card">
+          <div class="resource-count" style="color:var(--primary);">2</div>
+          <h4>Backend Engineers</h4>
+          <p>Java 17 / Jakarta EE / WildFly</p>
+        </div>
+        <div class="resource-card">
+          <div class="resource-count" style="color:var(--accent);">2</div>
+          <h4>Frontend Engineers</h4>
+          <p>React 18 / Vite / Tailwind</p>
+        </div>
+        <div class="resource-card">
+          <div class="resource-count" style="color:var(--green);">1</div>
+          <h4>Mobile Developer</h4>
+          <p>React Native / SQLite</p>
+        </div>
+        <div class="resource-card">
+          <div class="resource-count" style="color:var(--orange);">1</div>
+          <h4>DevOps / DBA</h4>
+          <p>Docker / Nginx / MariaDB</p>
+        </div>
+        <div class="resource-card">
+          <div class="resource-count" style="color:var(--red);">1</div>
+          <h4>QA Engineer</h4>
+          <p>JUnit / Selenium / JMeter</p>
+        </div>
+        <div class="resource-card">
+          <div class="resource-count" style="color:#0284c7;">1</div>
+          <h4>Project Manager</h4>
+          <p>Scrum / Stakeholder Mgmt</p>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <span class="week-owner owner-backend">Backend</span>
+        <span class="week-owner owner-frontend">Frontend</span>
+        <span class="week-owner owner-mobile">Mobile</span>
+        <span class="week-owner owner-devops">DevOps</span>
+        <span class="week-owner owner-qa">QA</span>
+        <span class="week-owner owner-pm">PM</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHASE 1 ==================== -->
+  <section class="section" id="phase1">
+    <div class="container">
+      <div class="phase-header" style="background:linear-gradient(135deg, var(--primary), #2d3a8c);">
+        <div>
+          <h3>Phase 1: Foundation</h3>
+          <p>Project setup, authentication, user management, database schema</p>
+        </div>
+        <div class="phase-header-meta">
+          <div class="dur">6 Weeks</div>
+          <div class="dates">Weeks 1–6</div>
+        </div>
+      </div>
+
+      <div class="week-grid">
+        <!-- Week 1 -->
+        <div class="week-label">WK 1</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Project Kickoff & Environment Setup</div>
+            <div class="week-task-detail">
+              Git repo setup (monorepo structure). Docker Compose config: WildFly 31 + MariaDB 10.6 + Redis 5.0.2. Maven parent POM with Jakarta EE 10 BOM. CI/CD pipeline (GitHub Actions). Development environment documentation.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">React Project Scaffolding</div>
+            <div class="week-task-detail">
+              AdminApp: Vite + React 18.2 + Tailwind CSS + Zustand. Project structure, routing (React Router 6), layout components. Design system: colors, typography, component library setup.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-devops">DevOps</span>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+            <span class="week-owner owner-pm">PM</span>
+          </div>
+        </div>
+
+        <!-- Week 2 -->
+        <div class="week-label">WK 2</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Database Schema — Groups A, B, J</div>
+            <div class="week-task-detail">
+              MariaDB schema: general_user_profile, general_role, user_role, role_permission, general_organization_profile, org_address, org_contact, tax_rate, system_configuration, audit_log. JPA @Entity classes with Hibernate mappings.
+            </div>
+            <span class="dep-tag">Depends: WK1 Docker</span>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Auth UI</div>
+            <div class="week-task-detail">
+              Login page, forgot password flow, OTP verification screen. Zustand auth store. Axios interceptors for JWT. Protected route wrapper.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-devops">DevOps</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <!-- Week 3 -->
+        <div class="week-label">WK 3</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Authentication EJBs</div>
+            <div class="week-task-detail">
+              JWT provider (io.jsonwebtoken 0.11.5): access + refresh tokens. BCrypt password hashing. OTP generation & validation. Auth JAX-RS endpoints: /api/auth/login, /register, /refresh, /forgot-password, /verify-otp. CORS filter config.
+            </div>
+            <span class="dep-tag">Depends: WK2 Schema</span>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Layout & Navigation</div>
+            <div class="week-task-detail">
+              Sidebar navigation, top bar with user menu. Breadcrumbs. Responsive layout. Toast notification system. Loading states & error boundaries.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <!-- Week 4 -->
+        <div class="week-label">WK 4</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">User Management EJBs & API</div>
+            <div class="week-task-detail">
+              User CRUD EJBs. Role & permission management. RBAC interceptor for JAX-RS. Endpoints: /api/users (CRUD), /api/roles (CRUD), /api/permissions. Pagination, search, filtering.
+            </div>
+            <span class="dep-tag">Depends: WK3 Auth</span>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: User Management Screens</div>
+            <div class="week-task-detail">
+              User list (data table with search, filter, pagination). Create/edit user form. Role assignment. User profile view. Password reset (admin).
+            </div>
+            <span class="dep-tag">Depends: WK3 Auth UI</span>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <!-- Week 5 -->
+        <div class="week-label">WK 5</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Organization Management EJBs & API</div>
+            <div class="week-task-detail">
+              Organization CRUD EJBs (Vendor, Distributor, Shop). Org hierarchy & relationships. Endpoints: /api/organizations (CRUD), /api/organizations/{id}/addresses, /api/organizations/{id}/contacts. Vendor-Distributor mapping.
+            </div>
+            <span class="dep-tag">Depends: WK4 Users</span>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Organization Screens</div>
+            <div class="week-task-detail">
+              Organization list & detail views. Create/edit org with address & contact tabs. Vendor management. Distributor management. Shop registration. Org type filtering.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <!-- Week 6 -->
+        <div class="week-label">WK 6</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Phase 1 Integration & Testing</div>
+            <div class="week-task-detail">
+              End-to-end integration testing: Auth → User → Org flows. JUnit 5 unit tests for auth & user EJBs. API documentation (Swagger/OpenAPI). Bug fixes. Code review & refactoring.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Polish & Bug Fixes</div>
+            <div class="week-task-detail">
+              UI polish, responsive testing. Error handling improvements. Loading states. Form validation. Cross-browser testing.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+            <span class="week-owner owner-qa">QA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 1 Milestone -->
+      <div class="milestone-card">
+        <div class="milestone-icon">&#127942;</div>
+        <div>
+          <div class="milestone-text">Milestone 1: Foundation Complete</div>
+          <div class="milestone-sub">Working auth system, user/org CRUD, RBAC, AdminApp login + management screens, Docker environment running</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHASE 2 ==================== -->
+  <section class="section section-alt" id="phase2">
+    <div class="container">
+      <div class="phase-header" style="background:linear-gradient(135deg, var(--accent), #c2185b);">
+        <div>
+          <h3>Phase 2: Core Operations</h3>
+          <p>Product catalog, order management, inventory, mobile app (Sales Rep)</p>
+        </div>
+        <div class="phase-header-meta">
+          <div class="dur">8 Weeks</div>
+          <div class="dates">Weeks 7–14</div>
+        </div>
+      </div>
+
+      <div class="week-grid">
+        <!-- Week 7 -->
+        <div class="week-label">WK 7</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Product & Catalog Schema + EJBs</div>
+            <div class="week-task-detail">
+              JPA entities: product, product_category, product_image, product_price, product_unit_of_measure. Product CRUD EJBs. Category hierarchy. Endpoints: /api/products, /api/categories. Image upload (file storage).
+            </div>
+            <span class="dep-tag">Depends: P1 Complete</span>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Project Setup</div>
+            <div class="week-task-detail">
+              React Native project init. Navigation (React Navigation). SQLite local database setup (react-native-sqlite-storage). Offline-first architecture. Auth flow (JWT storage in SecureStore).
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <!-- Week 8 -->
+        <div class="week-label">WK 8</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Inventory Schema + EJBs</div>
+            <div class="week-task-detail">
+              JPA entities: inventory, inventory_batch, inventory_movement, goods_received_note, grn_item. Inventory tracking EJBs. Stock level calculations. Endpoints: /api/inventory, /api/grn. Low stock alerts logic.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Product Catalog Screens</div>
+            <div class="week-task-detail">
+              Product list with image grid/table toggle. Product create/edit form (multi-step: basic info, pricing, images, UOM). Category management tree view. Bulk import (CSV).
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <!-- Week 9 -->
+        <div class="week-label">WK 9</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Order Management Schema + EJBs</div>
+            <div class="week-task-detail">
+              JPA entities: sales_order, sales_order_item, order_status_history. Order lifecycle EJBs (DRAFT → SUBMITTED → APPROVED → PROCESSING → LOADED → IN_TRANSIT → DELIVERED → COMPLETED). Endpoints: /api/orders (CRUD + status transitions).
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Sales Rep Home & Shop Visit</div>
+            <div class="week-task-detail">
+              Dashboard screen: today's stats, route summary. Shop list with search. GPS check-in/check-out. Shop detail view with order history & outstanding balance.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <!-- Week 10 -->
+        <div class="week-label">WK 10</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Redis Cache Integration</div>
+            <div class="week-task-detail">
+              Jedis client setup. Cache product catalog, pricing, stock levels. Cache invalidation strategy. Session caching. API response caching for hot endpoints.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Order Creation</div>
+            <div class="week-task-detail">
+              Product browse & search (offline catalog). Category filtering. Add to cart with quantity & discount. Order review screen. Submit order (offline queue with idempotency key).
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <!-- Week 11 -->
+        <div class="week-label">WK 11</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Distributor-Shop Mapping & Pricing</div>
+            <div class="week-task-detail">
+              distributor_shop entity & EJBs. Shop-specific pricing tiers. Credit limit management. Payment terms configuration. Endpoints: /api/distributor-shops.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Order Management Screens</div>
+            <div class="week-task-detail">
+              Order list with status filters & search. Order detail view with timeline. Approve/reject workflow. Order status tracking. Bulk order operations.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <!-- Week 12 -->
+        <div class="week-label">WK 12</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">AdminApp: Inventory Screens</div>
+            <div class="week-task-detail">
+              Inventory dashboard (stock levels by warehouse). GRN creation & management. Stock movement history. Low stock alerts list. Batch tracking view.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Order History & Sync</div>
+            <div class="week-task-detail">
+              Order history list with status badges. Order detail view. Basic sync engine: push pending orders, pull catalog updates. Sync status indicator. Conflict detection.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-frontend">Frontend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <!-- Week 13 -->
+        <div class="week-label">WK 13</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Order-Inventory Integration</div>
+            <div class="week-task-detail">
+              Order approval → inventory reservation. Stock deduction on delivery. Return → stock restoration. Inventory movement audit trail. Concurrent order handling (optimistic locking).
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Offline Catalog & Map</div>
+            <div class="week-task-detail">
+              Offline product catalog with images. Route map view (react-native-maps). Shop pins with visit status. GPS tracking background service.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <!-- Week 14 -->
+        <div class="week-label">WK 14</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Phase 2 Integration & Testing</div>
+            <div class="week-task-detail">
+              End-to-end: Order creation (mobile) → Approval (admin) → Inventory update. JUnit tests for order & inventory EJBs. Mobile app testing on Android & iOS. Performance testing (Redis cache hit rates). Bug fixes.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Demo & Stakeholder Review</div>
+            <div class="week-task-detail">
+              Demo to TecCoop stakeholders. Feedback collection. Backlog grooming for Phase 3. Documentation update.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-qa">QA</span>
+            <span class="week-owner owner-pm">PM</span>
+            <span class="week-owner owner-backend">Backend</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-card">
+        <div class="milestone-icon">&#127942;</div>
+        <div>
+          <div class="milestone-text">Milestone 2: Core Operations Live</div>
+          <div class="milestone-sub">Sales Rep mobile app (offline orders), product catalog, inventory tracking, order lifecycle, AdminApp management screens, Redis caching</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHASE 3 ==================== -->
+  <section class="section" id="phase3">
+    <div class="container">
+      <div class="phase-header" style="background:linear-gradient(135deg, var(--green), #047857);">
+        <div>
+          <h3>Phase 3: Delivery & Logistics</h3>
+          <p>Vehicle management, delivery trips, route planning, GPS tracking, delivery notes</p>
+        </div>
+        <div class="phase-header-meta">
+          <div class="dur">6 Weeks</div>
+          <div class="dates">Weeks 15–20</div>
+        </div>
+      </div>
+
+      <div class="week-grid">
+        <div class="week-label">WK 15</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Vehicle & Delivery Schema + EJBs</div>
+            <div class="week-task-detail">
+              JPA entities: vehicle, delivery_trip, delivery_trip_order, delivery_confirmation, delivery_return_item. Vehicle CRUD. Trip creation & assignment. Endpoints: /api/vehicles, /api/delivery-trips.
+            </div>
+            <span class="dep-tag">Depends: P2 Orders</span>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Vehicle Management</div>
+            <div class="week-task-detail">
+              Vehicle list & registration. Driver assignment. Vehicle status tracking. Maintenance schedule view.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 16</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Route Planning Schema + EJBs</div>
+            <div class="week-task-detail">
+              JPA entities: route_plan, route_plan_stop, gps_tracking_log. Route creation & optimization. GPS tracking endpoint. Endpoints: /api/routes, /api/gps-tracking.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Trip Planner & Route Planning</div>
+            <div class="week-task-detail">
+              Trip creation wizard: select orders → assign vehicle → generate route. Route map visualization. Drag-and-drop stop reordering. Loading sheet generation.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 17</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Voucher Module — DN & Loading Note</div>
+            <div class="week-task-detail">
+              JPA entities: voucher, voucher_line, voucher_type, voucher_number_sequence, voucher_tax_summary. Voucher generation EJBs for Delivery Notes (DN) and Loading Notes (LN). Auto-numbering: DN-2026-00001 format.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Delivery Personnel — Trip View</div>
+            <div class="week-task-detail">
+              Trip dashboard: assigned deliveries, vehicle info, progress. Delivery list sorted by route. Loading confirmation screen with barcode scan. Trip status updates.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 18</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Delivery Confirmation EJBs</div>
+            <div class="week-task-detail">
+              Delivery confirmation logic: full/partial delivery, returns with reason codes. Signature capture storage. Photo proof upload. GPS-tagged confirmation. Inventory update on delivery.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Delivery Confirmation Screen</div>
+            <div class="week-task-detail">
+              Item-by-item delivery confirmation. Quantity adjustment (partial delivery). Return item with reason code selection. Signature pad capture. Camera for photo proof. GPS auto-capture.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 19</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Trip Reconciliation & GPS Tracking</div>
+            <div class="week-task-detail">
+              Trip completion: loaded vs delivered vs returned reconciliation. GPS tracking log aggregation. Trip summary report. AdminApp: real-time trip tracking view.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Loading Sheet & Delivery Tracking</div>
+            <div class="week-task-detail">
+              Loading sheet print view. Real-time delivery tracking dashboard. Delivery status timeline. Return management. Trip reconciliation report.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 20</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Phase 3 Integration & Testing</div>
+            <div class="week-task-detail">
+              End-to-end: Order approved → Trip created → Loaded → Delivered → Confirmed. Delivery app field testing (GPS, camera, signature). Voucher generation testing (DN, LN). Bug fixes.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Demo & Stakeholder Review</div>
+            <div class="week-task-detail">
+              Demo delivery workflow to TecCoop. Field test with sample delivery route. Feedback collection. Phase 4 planning.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-qa">QA</span>
+            <span class="week-owner owner-pm">PM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-card">
+        <div class="milestone-icon">&#127942;</div>
+        <div>
+          <div class="milestone-text">Milestone 3: Delivery & Logistics Live</div>
+          <div class="milestone-sub">Vehicle management, trip planning, delivery confirmation (signature + photo + GPS), route tracking, DN & Loading Note vouchers, delivery personnel mobile app</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHASE 4 ==================== -->
+  <section class="section section-alt" id="phase4">
+    <div class="container">
+      <div class="phase-header" style="background:linear-gradient(135deg, var(--orange), #b45309);">
+        <div>
+          <h3>Phase 4: Financial</h3>
+          <p>Invoicing, receipts, credit notes, payment collection, shop ledger, FinanceApp, CustomerPortal</p>
+        </div>
+        <div class="phase-header-meta">
+          <div class="dur">6 Weeks</div>
+          <div class="dates">Weeks 21–26</div>
+        </div>
+      </div>
+
+      <div class="week-grid">
+        <div class="week-label">WK 21</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Invoice & Credit Note Vouchers</div>
+            <div class="week-task-detail">
+              Voucher module completion: Invoice (INV), Receipt (REC), Credit Note (CN). Auto-generation on delivery confirmation. Tax calculation (voucher_tax_summary). Voucher status lifecycle: DRAFT → GENERATED → SENT → PAID.
+            </div>
+            <span class="dep-tag">Depends: P3 Voucher Module</span>
+          </div>
+          <div>
+            <div class="week-task-title">FinanceApp: Project Setup & Dashboard</div>
+            <div class="week-task-detail">
+              FinanceApp React project (Vite + Tailwind). Dashboard: revenue summary, outstanding receivables, payment collection trends (Recharts). Quick action cards.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 22</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Payment Collection EJBs</div>
+            <div class="week-task-detail">
+              JPA entities: payment, payment_allocation, daily_collection_summary. Payment methods: CASH, CHEQUE, BANK_TRANSFER, UPI, MOBILE_PAYMENT. Payment status lifecycle: COLLECTED → VERIFIED → DEPOSITED → CLEARED. Cheque bounce handling.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">FinanceApp: Voucher Management</div>
+            <div class="week-task-detail">
+              Invoice list with status filters. Invoice detail with line items & tax. Credit note creation (linked to parent invoice). Voucher PDF preview. Bulk send (email/WhatsApp).
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 23</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Shop Ledger & Payment Allocation</div>
+            <div class="week-task-detail">
+              JPA entity: shop_ledger. DEBIT on invoice, CREDIT on payment. Running balance calculation. Auto-allocation of payments to oldest invoices. Credit limit enforcement. Overdue detection & notification trigger.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">FinanceApp: Payment Management</div>
+            <div class="week-task-detail">
+              Payment list with method & status filters. Payment verification workflow. Daily collection summary view. Cheque tracking & clearance. Payment receipt generation.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 24</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">JasperReports Templates</div>
+            <div class="week-task-detail">
+              .jrxml templates: Invoice, Delivery Note, Receipt, Loading Note, Credit Note, Account Statement. PDF generation via @Asynchronous EJB. PDF storage & retrieval. Template customization per distributor.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">FinanceApp: Shop Ledger & Reports</div>
+            <div class="week-task-detail">
+              Shop ledger view: transaction history, running balance. Account statement generation. Aging report (30/60/90 days). Financial summary reports.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 25</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">CustomerPortal: Shop Owner & Vendor Views</div>
+            <div class="week-task-detail">
+              CustomerPortal React project setup. Shop Owner: order history, invoice list, payment history, outstanding balance. Vendor: product performance, distributor orders, sales analytics.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Payment Collection</div>
+            <div class="week-task-detail">
+              Outstanding invoices per shop. Multi-mode payment: Cash, Cheque (with photo), UPI, Bank Transfer. Receipt generation. GPS-tagged payment. Daily collection summary submission.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-frontend">Frontend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 26</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Phase 4 Integration & Testing</div>
+            <div class="week-task-detail">
+              End-to-end financial flow: Delivery → Invoice → Payment → Receipt → Ledger update. JasperReports output validation. Payment reconciliation testing. Cheque bounce scenario testing. Bug fixes.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Demo & Stakeholder Review</div>
+            <div class="week-task-detail">
+              Demo complete financial workflow to TecCoop. FinanceApp & CustomerPortal walkthrough. PDF voucher samples review. Phase 5 planning.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-qa">QA</span>
+            <span class="week-owner owner-pm">PM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-card">
+        <div class="milestone-icon">&#127942;</div>
+        <div>
+          <div class="milestone-text">Milestone 4: Financial Module Live</div>
+          <div class="milestone-sub">Complete invoicing, payment collection (multi-mode), shop ledger, JasperReports PDFs, FinanceApp, CustomerPortal, mobile payment collection</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHASE 5 ==================== -->
+  <section class="section" id="phase5">
+    <div class="container">
+      <div class="phase-header" style="background:linear-gradient(135deg, #9b1b6e, #7b1fa2);">
+        <div>
+          <h3>Phase 5: Analytics & Polish</h3>
+          <p>Reports, dashboards, notifications, sync engine, dark mode, multi-language</p>
+        </div>
+        <div class="phase-header-meta">
+          <div class="dur">4 Weeks</div>
+          <div class="dates">Weeks 27–30</div>
+        </div>
+      </div>
+
+      <div class="week-grid">
+        <div class="week-label">WK 27</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Report EJBs & Dashboard APIs</div>
+            <div class="week-task-detail">
+              Sales reports: daily/weekly/monthly by rep, shop, product. Inventory reports: stock levels, movement, low stock. Delivery reports: trip efficiency, on-time rate. Financial reports: revenue, outstanding, aging. JasperReports integration for PDF/Excel export.
+            </div>
+            <span class="dep-tag">Depends: P4 Complete</span>
+          </div>
+          <div>
+            <div class="week-task-title">AdminApp: Reports & Dashboards</div>
+            <div class="week-task-detail">
+              Executive dashboard (Recharts): KPI cards, trend charts, top performers. Sales analytics. Inventory analytics. Delivery performance. Date range filters. Export to PDF/Excel.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-frontend">Frontend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 28</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Notification EJBs</div>
+            <div class="week-task-detail">
+              FCM push notifications (firebase-admin). Jakarta Mail 2.0.1 email. WhatsApp (Meta Cloud API). SMS gateway integration. Notification templates (Appendix C). User notification preferences. notification table for history.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Notifications & Daily Summary</div>
+            <div class="week-task-detail">
+              Push notification handling. In-app notification center. Daily summary screen: orders placed, payments collected, shops visited. Notification preferences settings.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 29</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Sync Engine & Audit Logging</div>
+            <div class="week-task-detail">
+              Full sync engine: push (orders, payments, GPS) + pull (catalog, prices, routes). Conflict resolution: timestamp-based with server-side validation. Idempotency key deduplication. sync_log table. Comprehensive audit_log for all financial operations.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Mobile App: Offline Sync Engine</div>
+            <div class="week-task-detail">
+              Background sync service. Sync queue management. Conflict resolution UI. Sync status indicator (online/offline/syncing/error). Data integrity validation. Retry with exponential backoff.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-backend">Backend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 30</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">UI Polish & Accessibility</div>
+            <div class="week-task-detail">
+              All web apps: Dark mode toggle. Multi-language support (i18n — Sinhala, Tamil, English). Accessibility audit (WCAG 2.1). Performance optimization (lazy loading, code splitting). Mobile: dark mode, language selection.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Phase 5 Integration Testing</div>
+            <div class="week-task-detail">
+              Notification delivery testing (all channels). Sync engine stress testing (100+ concurrent syncs). Report accuracy validation. Dark mode visual QA. Multi-language string review.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-frontend">Frontend</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+            <span class="week-owner owner-qa">QA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-card">
+        <div class="milestone-icon">&#127942;</div>
+        <div>
+          <div class="milestone-text">Milestone 5: Feature Complete</div>
+          <div class="milestone-sub">All features implemented: reports, dashboards, notifications (FCM/Email/WhatsApp/SMS), offline sync engine, dark mode, multi-language. System is feature-complete.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PHASE 6 ==================== -->
+  <section class="section section-alt" id="phase6">
+    <div class="container">
+      <div class="phase-header" style="background:linear-gradient(135deg, var(--red), #b91c1c);">
+        <div>
+          <h3>Phase 6: Testing & Launch</h3>
+          <p>Comprehensive testing, security audit, production deployment, user training, go-live</p>
+        </div>
+        <div class="phase-header-meta">
+          <div class="dur">4 Weeks</div>
+          <div class="dates">Weeks 31–34</div>
+        </div>
+      </div>
+
+      <div class="week-grid">
+        <div class="week-label">WK 31</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Automated Test Suites</div>
+            <div class="week-task-detail">
+              JUnit 5 + Mockito: 80% code coverage target. Integration tests for all API endpoints. Database migration tests. EJB business logic tests. Edge case & boundary testing.
+            </div>
+            <span class="dep-tag">Depends: P5 Feature Complete</span>
+          </div>
+          <div>
+            <div class="week-task-title">Security Audit</div>
+            <div class="week-task-detail">
+              OWASP Top 10 vulnerability scan. JWT token security review. SQL injection testing. XSS prevention validation. RBAC permission matrix verification. TLS 1.3 configuration audit.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-qa">QA</span>
+            <span class="week-owner owner-backend">Backend</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 32</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Performance & Load Testing</div>
+            <div class="week-task-detail">
+              JMeter load tests: 500 concurrent users, 1000 req/sec target. Database query optimization. Redis cache tuning. API response time benchmarks (&lt;200ms P95). Memory leak detection. MariaDB slow query analysis.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">UAT — User Acceptance Testing</div>
+            <div class="week-task-detail">
+              Field testing with real Sales Reps & Delivery Personnel. Admin users testing all web apps. Finance team testing voucher & payment flows. Bug tracking & prioritization. Feedback collection.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-qa">QA</span>
+            <span class="week-owner owner-pm">PM</span>
+            <span class="week-owner owner-devops">DevOps</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 33</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">Production Deployment</div>
+            <div class="week-task-detail">
+              Production server setup (Docker Compose). Nginx reverse proxy configuration (SSL termination). MariaDB production config (replication, backups). Redis production config. Monitoring setup (health checks, log aggregation). DNS & domain configuration.
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">App Store Submission</div>
+            <div class="week-task-detail">
+              Android: Google Play Store submission (APK/AAB). iOS: Apple App Store submission (TestFlight → Review). App store assets: screenshots, descriptions, privacy policy. OTA update mechanism setup.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-devops">DevOps</span>
+            <span class="week-owner owner-mobile">Mobile</span>
+          </div>
+        </div>
+
+        <div class="week-label">WK 34</div>
+        <div class="week-row">
+          <div>
+            <div class="week-task-title">User Training & Documentation</div>
+            <div class="week-task-detail">
+              Training materials: Admin guide, Finance guide, Sales Rep guide, Delivery guide. Video tutorials for mobile app. FAQ documentation. Troubleshooting guide. API documentation (Swagger).
+            </div>
+          </div>
+          <div>
+            <div class="week-task-title">Go-Live & Handover</div>
+            <div class="week-task-detail">
+              Phased rollout: pilot with 2-3 distributors → full rollout. Data migration (if applicable). Go-live monitoring (24/7 for first week). Handover documentation. Support SLA agreement. Post-launch review meeting.
+            </div>
+          </div>
+          <div>
+            <span class="week-owner owner-pm">PM</span>
+            <span class="week-owner owner-qa">QA</span>
+            <span class="week-owner owner-devops">DevOps</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-card" style="border-color:var(--accent);">
+        <div class="milestone-icon" style="background:var(--accent-light);font-size:1.5rem;">&#127881;</div>
+        <div>
+          <div class="milestone-text" style="font-size:1rem;">Milestone 6: PRODUCTION GO-LIVE</div>
+          <div class="milestone-sub">System deployed to production. Mobile apps on App Store & Play Store. Users trained. Pilot distributors onboarded. 24/7 monitoring active. Project handover complete.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SUMMARY ==================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Summary</div>
+        <h2>Runsheet Summary</h2>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table summary-table">
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Name</th>
+              <th>Weeks</th>
+              <th>Duration</th>
+              <th>Key Deliverables</th>
+              <th>Gate Criteria</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-blue">P1</span></td>
+              <td><strong>Foundation</strong></td>
+              <td>1–6</td>
+              <td>6 weeks</td>
+              <td>Auth, Users, Orgs, RBAC, AdminApp login, Docker env</td>
+              <td>Login + CRUD working end-to-end</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-purple">P2</span></td>
+              <td><strong>Core Operations</strong></td>
+              <td>7–14</td>
+              <td>8 weeks</td>
+              <td>Products, Orders, Inventory, Redis, Sales Rep mobile app</td>
+              <td>Mobile order → Admin approval → Stock update</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">P3</span></td>
+              <td><strong>Delivery & Logistics</strong></td>
+              <td>15–20</td>
+              <td>6 weeks</td>
+              <td>Vehicles, Trips, Routes, GPS, DN/LN vouchers, Delivery app</td>
+              <td>Full delivery cycle with signature + photo + GPS</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-orange">P4</span></td>
+              <td><strong>Financial</strong></td>
+              <td>21–26</td>
+              <td>6 weeks</td>
+              <td>Invoices, Payments, Ledger, JasperReports, FinanceApp, Portal</td>
+              <td>Delivery → Invoice → Payment → Receipt → Ledger</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-purple">P5</span></td>
+              <td><strong>Analytics & Polish</strong></td>
+              <td>27–30</td>
+              <td>4 weeks</td>
+              <td>Reports, Notifications, Sync engine, Dark mode, i18n</td>
+              <td>All features complete, notifications working</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">P6</span></td>
+              <td><strong>Testing & Launch</strong></td>
+              <td>31–34</td>
+              <td>4 weeks</td>
+              <td>80% test coverage, Security audit, UAT, Production deploy</td>
+              <td>Go-live with pilot distributors</td>
+            </tr>
+            <tr style="background:var(--gray-100);font-weight:700;">
+              <td></td>
+              <td><strong>Total</strong></td>
+              <td>1–34</td>
+              <td><strong>34 weeks</strong></td>
+              <td><strong>~8.5 months</strong></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pre-launch Checklist -->
+      <div style="margin-top:48px;">
+        <div class="section-header" style="margin-top:0;">
+          <h2 style="font-size:1.3rem;">Pre-Launch Checklist</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+          <div class="card">
+            <h3 style="font-size:0.95rem;margin-bottom:12px;">&#9749; Technical</h3>
+            <ul class="checklist">
+              <li>All 57 database tables created & indexed</li>
+              <li>All 135 API endpoints tested & documented</li>
+              <li>JUnit 5 test coverage &ge; 80%</li>
+              <li>JMeter load test passed (500 concurrent users)</li>
+              <li>OWASP security audit passed</li>
+              <li>Redis cache configured & tested</li>
+              <li>JasperReports templates validated</li>
+              <li>Docker Compose production config ready</li>
+              <li>SSL/TLS 1.3 configured</li>
+              <li>Database backup & recovery tested</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="font-size:0.95rem;margin-bottom:12px;">&#128188; Business</h3>
+            <ul class="checklist">
+              <li>UAT signed off by TecCoop stakeholders</li>
+              <li>User training completed (all 6 roles)</li>
+              <li>Training materials & video tutorials ready</li>
+              <li>Mobile app approved on Play Store & App Store</li>
+              <li>Pilot distributor data migrated</li>
+              <li>Support SLA agreement signed</li>
+              <li>Go-live communication sent to all users</li>
+              <li>Rollback plan documented & tested</li>
+              <li>Monitoring & alerting configured</li>
+              <li>Post-launch support team assigned</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>34 Weeks to Production</h2>
+    <p>From foundation to go-live &mdash; a structured, milestone-driven delivery plan for the complete MVDSMS platform.</p>
+    <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="timeline.html" style="display:inline-block;padding:12px 28px;background:white;color:var(--primary);border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;">View Timeline & Risks</a>
+      <a href="index.html" style="display:inline-block;padding:12px 28px;background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;">Back to Overview</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">MVDSMS &mdash; Multi-Vendor Distribution & Sales Management System</div>
+    <p>A project of <strong>TecCoop</strong> &mdash; Elevating Cooperatives to the next level by using technology</p>
+    <p>Developed by <strong>Temco Bank Web Services</strong> &bull; SRS v2.0 &bull; February 2026</p>
+    <p style="font-size:0.75rem;margin-top:4px;">TecCoop &mdash; No.128, Highlevel Road, Nugegoda &bull; +94 70 363 0683</p>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="features.html">Features</a>
+      <a href="database.html">Database</a>
+      <a href="api.html">API</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="runsheet.html">Runsheet</a>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    // Mobile menu toggle
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
