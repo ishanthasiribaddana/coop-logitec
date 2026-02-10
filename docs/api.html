@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Endpoints — MVDSMS | TecCoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><img src="logo.svg" alt="TecCoop"></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="database.html">Database</a></li>
+        <li><a href="api.html" class="active">API</a></li>
+        <li><a href="timeline.html">Timeline</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>REST API Endpoints</h1>
+    <p>135 endpoints across 16 groups &mdash; JAX-RS with MicroProfile OpenAPI 3.1 documentation</p>
+  </section>
+
+  <!-- API DESIGN PRINCIPLES -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Design</div>
+        <h2>API Design Principles</h2>
+      </div>
+      <div class="card-grid card-grid-4">
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">&#128640;</div>
+          <h3 style="font-size:0.9rem;">RESTful</h3>
+          <p style="font-size:0.78rem;">JAX-RS (Jakarta EE)</p>
+        </div>
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">&#128274;</div>
+          <h3 style="font-size:0.9rem;">JWT Auth</h3>
+          <p style="font-size:0.78rem;">Bearer token (jjwt 0.11.5)</p>
+        </div>
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">&#128196;</div>
+          <h3 style="font-size:0.9rem;">Paginated</h3>
+          <p style="font-size:0.78rem;">?page=0&amp;size=20&amp;sort=</p>
+        </div>
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">&#128214;</div>
+          <h3 style="font-size:0.9rem;">Documented</h3>
+          <p style="font-size:0.78rem;">MicroProfile OpenAPI 3.1</p>
+        </div>
+      </div>
+      <div style="margin-top:24px;padding:20px;background:var(--dark);border-radius:12px;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:#93c5fd;">
+          Base URL: <span style="color:#fbbf24;">/api/v1/</span> &nbsp;&bull;&nbsp;
+          Format: <span style="color:#34d399;">JSON (Jackson 2.15.x)</span> &nbsp;&bull;&nbsp;
+          Error: <span style="color:#f87171;">{ "status": 400, "error": "...", "message": "...", "timestamp": "..." }</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALL ENDPOINTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Endpoints</div>
+        <h2>All 135 API Endpoints</h2>
+      </div>
+
+      <!-- 1. Auth -->
+      <div class="api-group">
+        <div class="api-group-title">&#128274; Authentication & Session <span class="api-group-count">6</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/auth/register</span><span class="api-desc">Register new user</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/auth/login</span><span class="api-desc">Login &rarr; JWT access + refresh token</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/auth/refresh-token</span><span class="api-desc">Refresh expired access token</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/auth/forgot-password</span><span class="api-desc">Send OTP to email/phone</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/auth/verify-otp</span><span class="api-desc">Verify OTP and reset password</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/auth/logout</span><span class="api-desc">Invalidate session</span></div>
+      </div>
+
+      <!-- 2. Users -->
+      <div class="api-group">
+        <div class="api-group-title">&#128100; User Profile & Management <span class="api-group-count">10</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/users/me</span><span class="api-desc">Get current user profile</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/users/me</span><span class="api-desc">Update current user profile</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/users/me/password</span><span class="api-desc">Change password</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/users/me/sessions</span><span class="api-desc">List active sessions</span></div>
+        <div class="api-endpoint"><span class="api-method method-delete">DELETE</span><span class="api-path">/api/v1/users/me/sessions/{id}</span><span class="api-desc">Revoke a session</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/users/{id}</span><span class="api-desc">Get user by ID (admin)</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/users/{id}/status</span><span class="api-desc">Activate/deactivate user</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/users/{id}/addresses</span><span class="api-desc">Get user addresses</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/users/{id}/addresses</span><span class="api-desc">Add user address</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/users/{id}/documents</span><span class="api-desc">Get user documents</span></div>
+      </div>
+
+      <!-- 3. Roles -->
+      <div class="api-group">
+        <div class="api-group-title">&#128272; Roles & Permissions <span class="api-group-count">6</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/roles</span><span class="api-desc">List all roles</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/roles/{id}/permissions</span><span class="api-desc">Get permissions for a role</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/users/{id}/roles</span><span class="api-desc">Assign role to user</span></div>
+        <div class="api-endpoint"><span class="api-method method-delete">DELETE</span><span class="api-path">/api/v1/users/{id}/roles/{roleId}</span><span class="api-desc">Remove role from user</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/permissions</span><span class="api-desc">List all permissions</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/roles/{id}/permissions</span><span class="api-desc">Update role permissions</span></div>
+      </div>
+
+      <!-- 4. Organizations -->
+      <div class="api-group">
+        <div class="api-group-title">&#127970; Organization Management <span class="api-group-count">14</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/organizations</span><span class="api-desc">List organizations (filterable by org_type)</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/organizations/{id}</span><span class="api-desc">Get organization detail</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/organizations</span><span class="api-desc">Create organization</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/organizations/{id}</span><span class="api-desc">Update organization</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/organizations/{id}/verify</span><span class="api-desc">Verify organization (admin)</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/organizations/{id}/addresses</span><span class="api-desc">List org addresses</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/organizations/{id}/addresses</span><span class="api-desc">Add org address</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/organizations/{id}/addresses/{aid}</span><span class="api-desc">Update org address</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/organizations/{id}/contacts</span><span class="api-desc">List contact persons</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/organizations/{id}/contacts</span><span class="api-desc">Add contact person</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/organizations/{id}/bank-accounts</span><span class="api-desc">List bank accounts</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/organizations/{id}/bank-accounts</span><span class="api-desc">Add bank account</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/organizations/{id}/documents</span><span class="api-desc">List org documents</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/organizations/{id}/documents</span><span class="api-desc">Upload org document</span></div>
+      </div>
+
+      <!-- 5. Distributor-Shop -->
+      <div class="api-group">
+        <div class="api-group-title">&#128279; Distributor-Shop Relationships <span class="api-group-count">5</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/distributors/{id}/shops</span><span class="api-desc">List shops for distributor</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/distributors/{id}/shops</span><span class="api-desc">Link shop to distributor</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/distributors/{id}/shops/{shopId}</span><span class="api-desc">Update relationship (credit, terms)</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/distributors/{id}/staff</span><span class="api-desc">List staff</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/distributors/{id}/staff</span><span class="api-desc">Assign user to distributor</span></div>
+      </div>
+
+      <!-- 6. Products -->
+      <div class="api-group">
+        <div class="api-group-title">&#128230; Product & Catalog <span class="api-group-count">14</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/categories</span><span class="api-desc">List product categories</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/categories</span><span class="api-desc">Create category</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/categories/{id}</span><span class="api-desc">Update category</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/products</span><span class="api-desc">List products (filterable)</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/products/{id}</span><span class="api-desc">Get product detail with images &amp; tiers</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/products</span><span class="api-desc">Create product (vendor)</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/products/{id}</span><span class="api-desc">Update product (vendor)</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/products/{id}/images</span><span class="api-desc">Upload product image</span></div>
+        <div class="api-endpoint"><span class="api-method method-delete">DELETE</span><span class="api-path">/api/v1/products/{id}/images/{imgId}</span><span class="api-desc">Delete product image</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/products/{id}/price-tiers</span><span class="api-desc">Get price tiers</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/products/{id}/price-tiers</span><span class="api-desc">Create price tier</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/distributors/{id}/catalog</span><span class="api-desc">Get distributor's catalog</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/distributors/{id}/catalog</span><span class="api-desc">Subscribe to vendor product</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/distributors/{id}/catalog/{pid}</span><span class="api-desc">Update selling price</span></div>
+      </div>
+
+      <!-- 7. Inventory -->
+      <div class="api-group">
+        <div class="api-group-title">&#128451; Inventory & Warehouse <span class="api-group-count">12</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/warehouses</span><span class="api-desc">List warehouses</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/warehouses</span><span class="api-desc">Create warehouse</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/warehouses/{id}</span><span class="api-desc">Update warehouse</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/inventory</span><span class="api-desc">List inventory</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/inventory/{id}</span><span class="api-desc">Get inventory detail with batches</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/inventory/low-stock</span><span class="api-desc">Items below reorder level</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/inventory/movements</span><span class="api-desc">List inventory movements</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/inventory/stock-adjustment</span><span class="api-desc">Create stock adjustment</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/grn</span><span class="api-desc">List GRNs</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/grn</span><span class="api-desc">Create GRN with line items</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/grn/{id}</span><span class="api-desc">Get GRN detail</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/grn/{id}/verify</span><span class="api-desc">Verify GRN and update inventory</span></div>
+      </div>
+
+      <!-- 8. Orders -->
+      <div class="api-group">
+        <div class="api-group-title">&#128196; Order Management <span class="api-group-count">10</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/orders</span><span class="api-desc">List orders (filterable)</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/orders/{id}</span><span class="api-desc">Get order detail with items &amp; history</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/orders</span><span class="api-desc">Create order</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/orders/{id}</span><span class="api-desc">Update order (draft only)</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/orders/{id}/submit</span><span class="api-desc">Submit order (DRAFT &rarr; SUBMITTED)</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/orders/{id}/approve</span><span class="api-desc">Approve order, reserve inventory</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/orders/{id}/reject</span><span class="api-desc">Reject order with reason</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/orders/{id}/cancel</span><span class="api-desc">Cancel order with reason</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/orders/{id}/history</span><span class="api-desc">Get order status history</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/orders/{id}/vouchers</span><span class="api-desc">Get related vouchers (DN, INV, CN)</span></div>
+      </div>
+
+      <!-- 9. Delivery -->
+      <div class="api-group">
+        <div class="api-group-title">&#128666; Vehicle & Delivery Trip <span class="api-group-count">12</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/vehicles</span><span class="api-desc">List vehicles</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/vehicles</span><span class="api-desc">Register vehicle</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/vehicles/{id}</span><span class="api-desc">Update vehicle</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/delivery-trips</span><span class="api-desc">List delivery trips</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/delivery-trips</span><span class="api-desc">Create delivery trip</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/delivery-trips/{id}</span><span class="api-desc">Get trip detail</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/delivery-trips/{id}/orders</span><span class="api-desc">Assign orders to trip</span></div>
+        <div class="api-endpoint"><span class="api-method method-delete">DELETE</span><span class="api-path">/api/v1/delivery-trips/{id}/orders/{oid}</span><span class="api-desc">Remove order from trip</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/delivery-trips/{id}/confirm-loading</span><span class="api-desc">Confirm loading, generate DN</span></div>
+        <div class="api-endpoint"><span class="api-method method-patch">PATCH</span><span class="api-path">/api/v1/delivery-trips/{id}/status</span><span class="api-desc">Update trip status</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/delivery-trips/{id}/deliver/{oid}</span><span class="api-desc">Confirm delivery for an order</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/delivery-trips/{id}/reconciliation</span><span class="api-desc">Loaded vs delivered vs returned</span></div>
+      </div>
+
+      <!-- 10. Vouchers -->
+      <div class="api-group">
+        <div class="api-group-title">&#128203; Voucher Module <span class="api-group-count">10</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/vouchers</span><span class="api-desc">List vouchers (filterable by type, status)</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/vouchers/{id}</span><span class="api-desc">Get voucher detail with lines &amp; tax</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/vouchers</span><span class="api-desc">Create voucher (manual, e.g., credit note)</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/vouchers/{id}</span><span class="api-desc">Update voucher (draft only)</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/vouchers/{id}/approve</span><span class="api-desc">Approve voucher</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/vouchers/{id}/send</span><span class="api-desc">Send via email/WhatsApp/SMS</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/vouchers/{id}/pdf</span><span class="api-desc">Generate/download PDF (JasperReports)</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/vouchers/{id}/attachments</span><span class="api-desc">Upload attachment</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/vouchers/overdue</span><span class="api-desc">List overdue invoices</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/voucher-types</span><span class="api-desc">List voucher types</span></div>
+      </div>
+
+      <!-- 11. Payments -->
+      <div class="api-group">
+        <div class="api-group-title">&#128176; Payment <span class="api-group-count">8</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/payments</span><span class="api-desc">List payments (filterable)</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/payments</span><span class="api-desc">Record payment + receipt voucher</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/payments/{id}</span><span class="api-desc">Get payment detail</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/payments/{id}/receipt</span><span class="api-desc">Generate receipt PDF</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/payments/{id}/verify</span><span class="api-desc">Verify payment</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/payments/{id}/deposit</span><span class="api-desc">Mark as deposited</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/payments/{id}/bounce</span><span class="api-desc">Mark cheque as bounced</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/payments/{id}/allocate</span><span class="api-desc">Allocate to invoices</span></div>
+      </div>
+
+      <!-- 12. Ledger -->
+      <div class="api-group">
+        <div class="api-group-title">&#128181; Shop Ledger & Collections <span class="api-group-count">4</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/shops/{id}/ledger</span><span class="api-desc">Get shop ledger</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/shops/{id}/balance</span><span class="api-desc">Get current outstanding balance</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/daily-collections</span><span class="api-desc">List daily collection summaries</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/daily-collections</span><span class="api-desc">Submit daily collection summary</span></div>
+      </div>
+
+      <!-- 13. Routes -->
+      <div class="api-group">
+        <div class="api-group-title">&#128205; Route Planning & Field Ops <span class="api-group-count">8</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/routes</span><span class="api-desc">List route plans</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/routes</span><span class="api-desc">Create route plan with stops</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/routes/{id}</span><span class="api-desc">Get route plan detail</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/routes/today</span><span class="api-desc">Get today's route for current rep</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/routes/{id}/stops/{stopId}/checkin</span><span class="api-desc">Check in at shop</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/routes/{id}/stops/{stopId}/checkout</span><span class="api-desc">Check out from shop</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/routes/{id}/stops/{stopId}/photos</span><span class="api-desc">Upload shop visit photo</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/gps-tracking</span><span class="api-desc">Submit GPS tracking batch</span></div>
+      </div>
+
+      <!-- 14. Reports -->
+      <div class="api-group">
+        <div class="api-group-title">&#128202; Reports <span class="api-group-count">8</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/sales-summary</span><span class="api-desc">Sales summary report</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/sales-rep-performance</span><span class="api-desc">Sales rep performance</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/product-performance</span><span class="api-desc">Product analytics</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/inventory</span><span class="api-desc">Inventory status &amp; movement</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/delivery</span><span class="api-desc">Delivery performance</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/financial</span><span class="api-desc">Financial summary</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/shop/{id}</span><span class="api-desc">Shop-specific report</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/reports/export/{reportId}</span><span class="api-desc">Download PDF/Excel (JasperReports)</span></div>
+      </div>
+
+      <!-- 15. Sync -->
+      <div class="api-group">
+        <div class="api-group-title">&#128260; Sync &mdash; Mobile Offline <span class="api-group-count">3</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/sync/push</span><span class="api-desc">Upload offline data (orders, payments, GPS)</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/sync/pull</span><span class="api-desc">Download updates since last sync</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/sync/status</span><span class="api-desc">Check sync status &amp; conflicts</span></div>
+      </div>
+
+      <!-- 16. Notifications -->
+      <div class="api-group">
+        <div class="api-group-title">&#128276; Notifications <span class="api-group-count">5</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/notifications</span><span class="api-desc">List notifications for current user</span></div>
+        <div class="api-endpoint"><span class="api-method method-patch">PATCH</span><span class="api-path">/api/v1/notifications/{id}/read</span><span class="api-desc">Mark as read</span></div>
+        <div class="api-endpoint"><span class="api-method method-post">POST</span><span class="api-path">/api/v1/notifications/read-all</span><span class="api-desc">Mark all as read</span></div>
+        <div class="api-endpoint"><span class="api-method method-get">GET</span><span class="api-path">/api/v1/notifications/preferences</span><span class="api-desc">Get notification preferences</span></div>
+        <div class="api-endpoint"><span class="api-method method-put">PUT</span><span class="api-path">/api/v1/notifications/preferences</span><span class="api-desc">Update notification preferences</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENDPOINT SUMMARY -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Summary</div>
+        <h2>Endpoint Count by Group</h2>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Group</th><th style="text-align:center;">GET</th><th style="text-align:center;">POST</th><th style="text-align:center;">PUT</th><th style="text-align:center;">PATCH</th><th style="text-align:center;">DELETE</th><th style="text-align:center;">Total</th></tr></thead>
+          <tbody>
+            <tr><td>Authentication & Session</td><td style="text-align:center;">0</td><td style="text-align:center;">6</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">6</td></tr>
+            <tr><td>User Profile & Management</td><td style="text-align:center;">5</td><td style="text-align:center;">1</td><td style="text-align:center;">3</td><td style="text-align:center;">0</td><td style="text-align:center;">1</td><td style="text-align:center;font-weight:700;">10</td></tr>
+            <tr><td>Roles & Permissions</td><td style="text-align:center;">3</td><td style="text-align:center;">1</td><td style="text-align:center;">1</td><td style="text-align:center;">0</td><td style="text-align:center;">1</td><td style="text-align:center;font-weight:700;">6</td></tr>
+            <tr><td>Organization Management</td><td style="text-align:center;">6</td><td style="text-align:center;">5</td><td style="text-align:center;">3</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">14</td></tr>
+            <tr><td>Distributor-Shop</td><td style="text-align:center;">2</td><td style="text-align:center;">2</td><td style="text-align:center;">1</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">5</td></tr>
+            <tr><td>Product & Catalog</td><td style="text-align:center;">6</td><td style="text-align:center;">5</td><td style="text-align:center;">3</td><td style="text-align:center;">0</td><td style="text-align:center;">1</td><td style="text-align:center;font-weight:700;">14*</td></tr>
+            <tr><td>Inventory & Warehouse</td><td style="text-align:center;">7</td><td style="text-align:center;">2</td><td style="text-align:center;">2</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">12*</td></tr>
+            <tr><td>Order Management</td><td style="text-align:center;">4</td><td style="text-align:center;">4</td><td style="text-align:center;">1</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">10*</td></tr>
+            <tr><td>Vehicle & Delivery Trip</td><td style="text-align:center;">4</td><td style="text-align:center;">5</td><td style="text-align:center;">1</td><td style="text-align:center;">1</td><td style="text-align:center;">1</td><td style="text-align:center;font-weight:700;">12</td></tr>
+            <tr><td>Voucher Module</td><td style="text-align:center;">4</td><td style="text-align:center;">4</td><td style="text-align:center;">1</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">10*</td></tr>
+            <tr><td>Payment</td><td style="text-align:center;">3</td><td style="text-align:center;">5</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">8</td></tr>
+            <tr><td>Shop Ledger & Collections</td><td style="text-align:center;">3</td><td style="text-align:center;">1</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">4</td></tr>
+            <tr><td>Route Planning & Field Ops</td><td style="text-align:center;">4</td><td style="text-align:center;">4</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">8</td></tr>
+            <tr><td>Reports</td><td style="text-align:center;">8</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">8</td></tr>
+            <tr><td>Sync (Mobile)</td><td style="text-align:center;">2</td><td style="text-align:center;">1</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">3</td></tr>
+            <tr><td>Notifications</td><td style="text-align:center;">2</td><td style="text-align:center;">1</td><td style="text-align:center;">1</td><td style="text-align:center;">1</td><td style="text-align:center;">0</td><td style="text-align:center;font-weight:700;">5</td></tr>
+            <tr style="background:var(--gray-100);font-weight:700;"><td><strong>Total</strong></td><td style="text-align:center;">63</td><td style="text-align:center;">47</td><td style="text-align:center;">17</td><td style="text-align:center;">2</td><td style="text-align:center;">4</td><td style="text-align:center;"><strong>135</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">MVDSMS &mdash; Multi-Vendor Distribution & Sales Management System</div>
+    <p>A project of <strong>TecCoop</strong> &mdash; Elevating Cooperatives to the next level by using technology</p>
+    <p>Developed by <strong>Temco Bank Web Services</strong> &bull; SRS v2.0 &bull; February 2026</p>
+    <p style="font-size:0.75rem;margin-top:4px;">TecCoop &mdash; No.128, Highlevel Road, Nugegoda &bull; +94 70 363 0683</p>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="features.html">Features</a>
+      <a href="database.html">Database</a>
+      <a href="api.html">API</a>
+      <a href="timeline.html">Timeline</a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

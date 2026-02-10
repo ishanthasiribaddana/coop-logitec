@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features & Modules — MVDSMS | TecCoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><img src="logo.svg" alt="TecCoop"></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="features.html" class="active">Features</a></li>
+        <li><a href="database.html">Database</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="timeline.html">Timeline</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>Features & Modules</h1>
+    <p>11 core functional modules with 100+ detailed requirements covering the entire distribution lifecycle</p>
+  </section>
+
+  <!-- MODULE 1: USER MANAGEMENT -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 1</div>
+        <h2>&#128274; User Management & Authentication</h2>
+        <p>Registration, login, RBAC, JWT authentication, and multi-tenant isolation</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th><th>Actor</th></tr></thead>
+          <tbody>
+            <tr><td>FR-1.1</td><td>Registration with email/phone + OTP verification</td><td><span class="badge badge-red">High</span></td><td>All</td></tr>
+            <tr><td>FR-1.2</td><td>Role-based access control (RBAC) with 6 defined roles</td><td><span class="badge badge-red">High</span></td><td>Admin</td></tr>
+            <tr><td>FR-1.3</td><td>JWT-based authentication with refresh tokens</td><td><span class="badge badge-red">High</span></td><td>All</td></tr>
+            <tr><td>FR-1.4</td><td>Distributors invite and manage Sales Reps and Delivery Personnel</td><td><span class="badge badge-red">High</span></td><td>Distributor</td></tr>
+            <tr><td>FR-1.5</td><td>Profile management (name, photo, contact, address)</td><td><span class="badge badge-orange">Medium</span></td><td>All</td></tr>
+            <tr><td>FR-1.6</td><td>Password policies (min 8 chars, complexity rules)</td><td><span class="badge badge-red">High</span></td><td>All</td></tr>
+            <tr><td>FR-1.7</td><td>Biometric login (fingerprint/face) on mobile</td><td><span class="badge badge-orange">Medium</span></td><td>Mobile</td></tr>
+            <tr><td>FR-1.8</td><td>Log all authentication events for audit</td><td><span class="badge badge-red">High</span></td><td>System</td></tr>
+            <tr><td>FR-1.9</td><td>Multi-tenant isolation &mdash; each distributor's data is isolated</td><td><span class="badge badge-red">High</span></td><td>System</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 2: CATALOG -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 2</div>
+        <h2>&#128230; Multi-Vendor Catalog Management</h2>
+        <p>Product catalogs, pricing tiers, categories, barcode scanning, and bulk import</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th><th>Actor</th></tr></thead>
+          <tbody>
+            <tr><td>FR-2.1</td><td>Product catalogs with: name, SKU, description, images, category, UoM, weight, dimensions</td><td><span class="badge badge-red">High</span></td><td>Vendor</td></tr>
+            <tr><td>FR-2.2</td><td>Multiple pricing tiers (MRP, wholesale, distributor price)</td><td><span class="badge badge-red">High</span></td><td>Vendor</td></tr>
+            <tr><td>FR-2.3</td><td>Hierarchical categories (Category &gt; Sub-category &gt; Product &gt; Variant)</td><td><span class="badge badge-orange">Medium</span></td><td>Vendor</td></tr>
+            <tr><td>FR-2.4</td><td>Distributors browse and subscribe to vendor product catalogs</td><td><span class="badge badge-red">High</span></td><td>Distributor</td></tr>
+            <tr><td>FR-2.5</td><td>Distributors set own selling prices (markup) on subscribed products</td><td><span class="badge badge-red">High</span></td><td>Distributor</td></tr>
+            <tr><td>FR-2.6</td><td>Product search with filters (category, vendor, price range, availability)</td><td><span class="badge badge-red">High</span></td><td>All</td></tr>
+            <tr><td>FR-2.7</td><td>Barcode/QR code scanning for product lookup</td><td><span class="badge badge-orange">Medium</span></td><td>Sales Rep</td></tr>
+            <tr><td>FR-2.8</td><td>Product status management (active, discontinued, seasonal)</td><td><span class="badge badge-orange">Medium</span></td><td>Vendor</td></tr>
+            <tr><td>FR-2.9</td><td>Product image gallery (up to 5 images per product)</td><td><span class="badge badge-blue">Low</span></td><td>Vendor</td></tr>
+            <tr><td>FR-2.10</td><td>Bulk product import/export via CSV/Excel</td><td><span class="badge badge-orange">Medium</span></td><td>Vendor</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 3: SALES REP -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 3</div>
+        <h2>&#128205; Sales Rep Field Operations</h2>
+        <p>Route planning, GPS check-in, offline order collection, and daily summaries</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>FR-3.1</td><td>Create and assign daily route plans to Sales Reps</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.2</td><td>View assigned route with shop locations on a map</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.3</td><td>Check in at shop (GPS + timestamp auto-captured)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.4</td><td>Geo-fencing &mdash; check-in only within configurable radius</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-3.5</td><td>Browse catalog and check real-time stock availability at shop</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.6</td><td>Create purchase order on behalf of the shop</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.7</td><td>Order captures: shop ID, products, qty, price, discounts, notes, delivery date</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.8</td><td>View order history and outstanding balance for current shop</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.9</td><td>Capture photos during shop visit (shelf display, promotions)</td><td><span class="badge badge-blue">Low</span></td></tr>
+            <tr><td>FR-3.10</td><td>Track Sales Rep location periodically (configurable interval)</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-3.11</td><td>Check out from shop (auto-captured timestamp)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.12</td><td><strong>All operations work OFFLINE and sync when online</strong></td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-3.13</td><td>View daily summary (shops visited, orders placed, total value)</td><td><span class="badge badge-orange">Medium</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 4: ORDER MANAGEMENT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 4</div>
+        <h2>&#128196; Order Management</h2>
+        <p>Full order lifecycle from draft to completion with approval workflow</p>
+      </div>
+
+      <!-- Order Status Flow -->
+      <div class="flow-chain" style="margin-bottom:40px;">
+        <div class="flow-node" style="min-width:100px;padding:14px 16px;">
+          <div class="flow-node-title" style="font-size:0.8rem;">Draft</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node" style="min-width:100px;padding:14px 16px;">
+          <div class="flow-node-title" style="font-size:0.8rem;">Submitted</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node" style="min-width:100px;padding:14px 16px;border-color:var(--green);">
+          <div class="flow-node-title" style="font-size:0.8rem;color:var(--green);">Approved</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node" style="min-width:100px;padding:14px 16px;">
+          <div class="flow-node-title" style="font-size:0.8rem;">Loaded</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node" style="min-width:100px;padding:14px 16px;">
+          <div class="flow-node-title" style="font-size:0.8rem;">In Transit</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node" style="min-width:100px;padding:14px 16px;">
+          <div class="flow-node-title" style="font-size:0.8rem;">Delivered</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node" style="min-width:100px;padding:14px 16px;border-color:var(--primary);">
+          <div class="flow-node-title" style="font-size:0.8rem;color:var(--primary);">Completed</div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>FR-4.1</td><td>Order lifecycle: Draft &rarr; Submitted &rarr; Approved &rarr; Processing &rarr; Loaded &rarr; In Transit &rarr; Delivered &rarr; Completed / Returned</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-4.2</td><td>Sales Rep submits collected orders to distributor</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-4.3</td><td>Distributor reviews and approves/rejects/modifies orders</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-4.4</td><td>Validate order against available inventory before approval</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-4.5</td><td>Auto-assign order numbers (e.g., ORD-2026-00001)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-4.6</td><td>Partial fulfillment (adjust quantities)</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-4.7</td><td>Notify Sales Rep and Shop on status changes</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-4.8</td><td>Shop Owner can optionally place orders directly</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-4.9</td><td>Order cancellation with reason tracking</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-4.10</td><td>Complete order audit trail (who changed what, when)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-4.11</td><td>Minimum order value and quantity rules</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-4.12</td><td>Recurring/repeat orders</td><td><span class="badge badge-blue">Low</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 5: INVENTORY -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 5</div>
+        <h2>&#128451; Inventory Management</h2>
+        <p>Real-time stock tracking, GRN, batch tracking, adjustments, and low-stock alerts</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>FR-5.1</td><td>Real-time inventory per warehouse per product (SKU-level)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-5.2</td><td>Stock In with Goods Received Note (GRN)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-5.3</td><td>Auto-deduct stock on order approval (Stock Reserved)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-5.4</td><td>Auto-deduct stock on vehicle loading (Stock Out)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-5.5</td><td>Manual stock adjustments with reason codes (damage, expiry, theft, correction)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-5.6</td><td>Batch/lot tracking with expiry dates</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-5.7</td><td>Low stock alerts when below configurable reorder level</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-5.8</td><td>Multiple warehouse locations per distributor</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-5.9</td><td>Track vehicle inventory (goods loaded on each vehicle)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-5.10</td><td>Stock transfer between warehouses</td><td><span class="badge badge-blue">Low</span></td></tr>
+            <tr><td>FR-5.11</td><td>Inventory valuation reports (FIFO/weighted average)</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-5.12</td><td>Periodic stock-take / physical inventory count</td><td><span class="badge badge-orange">Medium</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 6: VEHICLE & DELIVERY -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 6</div>
+        <h2>&#128666; Vehicle & Delivery Management</h2>
+        <p>Vehicle registration, trip planning, loading, GPS tracking, and delivery confirmation</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>FR-6.1</td><td>Register delivery vehicles (registration, type, capacity, driver)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.2</td><td>Create delivery trips by assigning approved orders to a vehicle</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.3</td><td>Validate vehicle capacity against order weight/volume</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-6.4</td><td>Generate Loading Sheet listing all items per vehicle</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.5</td><td>Confirm loading completion (item-by-item or bulk)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.6</td><td>Update vehicle inventory upon loading confirmation</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.7</td><td>Delivery Personnel views assigned route with navigation</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.8</td><td>Optimize delivery route for minimum travel distance</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-6.9</td><td>Confirm delivery with: digital signature, photo proof, timestamp, GPS</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.10</td><td>Record partial deliveries and returns with reason codes</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-6.11</td><td>Track vehicle location in real-time during trips</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-6.12</td><td>Close trip and reconcile loaded vs delivered vs returned</td><td><span class="badge badge-red">High</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 7: VOUCHER (DN + INVOICE) -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 7</div>
+        <h2>&#128203; Voucher Module (DN, Invoice, Receipt, Credit Note)</h2>
+        <p>Unified voucher system with auto-generated PDFs via JasperReports</p>
+      </div>
+      <div class="card-grid card-grid-3" style="margin-bottom:40px;">
+        <div class="card" style="border-left:4px solid var(--primary);">
+          <h3>&#128196; Delivery Note (DN)</h3>
+          <p>Auto-generated when goods loaded onto vehicle. Contains itemized product list, shop details, order reference. Printable PDF.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--green);">
+          <h3>&#128181; Invoice (INV)</h3>
+          <p>Auto-generated upon delivery confirmation. Tax calculation (GST/VAT), credit terms, payment tracking. Status: Generated &rarr; Sent &rarr; Paid/Overdue.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--accent);">
+          <h3>&#129534; Receipt (REC)</h3>
+          <p>Generated on payment collection. Links to invoice via payment_allocation. Printable and digital format.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--orange);">
+          <h3>&#128260; Credit Note (CN)</h3>
+          <p>Issued for returns and adjustments. References parent invoice. Auto-posts to shop_ledger as CREDIT entry.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--purple);">
+          <h3>&#128666; Loading Note (DN_LOAD)</h3>
+          <p>Consolidated loading sheet per vehicle. Lists all products across all orders for a delivery trip.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--gray-600);">
+          <h3>&#128203; GRN Voucher (GRN_V)</h3>
+          <p>Goods Received Note voucher for stock-in from vendors. Links to goods_received_note records.</p>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>FR-7.1</td><td>Auto-generate Delivery Note for each order loaded onto vehicle</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-7.8</td><td>Unique sequential number format (e.g., DN-2026-00001, INV-2026-00001)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-8.1</td><td>Auto-generate Invoice upon delivery confirmation</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-8.3</td><td>Calculate applicable taxes (GST/VAT) based on product category and region</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-8.5</td><td>Available as printable PDF and digital format (JasperReports)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-8.6</td><td>Configurable credit terms (Net 15, Net 30) per shop</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-8.7</td><td>Track invoice status: Generated &rarr; Sent &rarr; Partially Paid &rarr; Paid &rarr; Overdue</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-8.8</td><td>Auto-flag overdue invoices and send reminders</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-8.9</td><td>Issue Credit Notes for returns and adjustments</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-8.11</td><td>Complete ledger per shop (all invoices, payments, credits)</td><td><span class="badge badge-red">High</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 8: PAYMENT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Module 8</div>
+        <h2>&#128176; Payment Collection & Reconciliation</h2>
+        <p>Multi-mode payments, daily collection summaries, verification workflow, and shop ledger</p>
+      </div>
+      <div class="card-grid card-grid-4" style="margin-bottom:40px;">
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">&#128181;</div>
+          <h3 style="font-size:0.95rem;">Cash</h3>
+        </div>
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">&#128221;</div>
+          <h3 style="font-size:0.95rem;">Cheque</h3>
+        </div>
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">&#127974;</div>
+          <h3 style="font-size:0.95rem;">Bank Transfer / UPI</h3>
+        </div>
+        <div class="card" style="text-align:center;padding:20px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">&#128179;</div>
+          <h3 style="font-size:0.95rem;">Credit (On Account)</h3>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>FR-9.1</td><td>Multiple payment methods: Cash, Cheque, Bank Transfer, UPI, Credit</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.2</td><td>Collect payment at delivery or during shop visits</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.3</td><td>Record: amount, method, reference number, date, collector</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.4</td><td>Partial payments against an invoice</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.5</td><td>Auto-reconcile payments against invoices (oldest first / manual)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.6</td><td>Generate Payment Receipt (printable + digital)</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.7</td><td>Track outstanding balance per shop in real-time</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.8</td><td>Set credit limits per shop</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.9</td><td>Block new orders if shop exceeds credit limit (configurable)</td><td><span class="badge badge-orange">Medium</span></td></tr>
+            <tr><td>FR-9.10</td><td>Daily cash collection summary submission</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.11</td><td>Distributor reconciles collected cash against system records</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>FR-9.12</td><td>Online payment links via SMS/WhatsApp</td><td><span class="badge badge-orange">Medium</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 9 & 10: NOTIFICATIONS & REPORTS -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="card-grid card-grid-2">
+        <div>
+          <div class="section-label">Module 9</div>
+          <h2 style="font-size:1.5rem;font-weight:800;color:var(--dark);margin-bottom:24px;">&#128276; Notifications & Alerts</h2>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>Push Notifications</strong> &mdash; FCM (Android) / APNs (iOS) for order updates, delivery, payments</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>Email</strong> &mdash; Jakarta Mail 2.0.1 with attached documents (invoices, DNs)</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>SMS</strong> &mdash; Critical events (order approved/rejected, payment overdue)</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>WhatsApp</strong> &mdash; Meta Cloud API for delivery updates and payment reminders</p>
+          </div>
+          <div class="card">
+            <p><strong>Configurable Preferences</strong> &mdash; Users choose which channels per event type</p>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">Module 10</div>
+          <h2 style="font-size:1.5rem;font-weight:800;color:var(--dark);margin-bottom:24px;">&#128202; Reporting & Analytics</h2>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>Sales Dashboard</strong> &mdash; Total sales, order count, average order value (daily/weekly/monthly)</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>Sales Rep Performance</strong> &mdash; Shops visited, orders collected, value, conversion rate</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>Inventory Report</strong> &mdash; Stock levels, movement, aging analysis</p>
+          </div>
+          <div class="card" style="margin-bottom:12px;">
+            <p><strong>Financial Report</strong> &mdash; Revenue, receivables, aging analysis, collection efficiency</p>
+          </div>
+          <div class="card">
+            <p><strong>Export</strong> &mdash; All reports support date range filters and PDF/Excel export (JasperReports)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NON-FUNCTIONAL REQUIREMENTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Non-Functional</div>
+        <h2>Performance, Security & Quality</h2>
+      </div>
+      <div class="card-grid card-grid-3">
+        <div class="card">
+          <h3>&#9889; Performance</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;font-size:0.85rem;color:var(--gray-700);">
+            <li style="padding:4px 0;">API response &lt; 500ms (95th %ile)</li>
+            <li style="padding:4px 0;">App cold start &lt; 3 seconds</li>
+            <li style="padding:4px 0;">Sync per order &lt; 2 seconds</li>
+            <li style="padding:4px 0;">10,000+ concurrent users</li>
+            <li style="padding:4px 0;">Report generation &lt; 10 seconds</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>&#128274; Security</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;font-size:0.85rem;color:var(--gray-700);">
+            <li style="padding:4px 0;">TLS 1.3 encryption in transit</li>
+            <li style="padding:4px 0;">AES-256 encryption at rest</li>
+            <li style="padding:4px 0;">BCrypt password hashing</li>
+            <li style="padding:4px 0;">Rate limiting (100 req/min/user)</li>
+            <li style="padding:4px 0;">PCI-DSS compliant payments</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>&#128736; Reliability</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;font-size:0.85rem;color:var(--gray-700);">
+            <li style="padding:4px 0;">99.9% uptime SLA</li>
+            <li style="padding:4px 0;">Backups every 6 hours</li>
+            <li style="padding:4px 0;">RPO &lt; 1 hour</li>
+            <li style="padding:4px 0;">RTO &lt; 4 hours</li>
+            <li style="padding:4px 0;">Zero data loss for financial txns</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">MVDSMS &mdash; Multi-Vendor Distribution & Sales Management System</div>
+    <p>A project of <strong>TecCoop</strong> &mdash; Elevating Cooperatives to the next level by using technology</p>
+    <p>Developed by <strong>Temco Bank Web Services</strong> &bull; SRS v2.0 &bull; February 2026</p>
+    <p style="font-size:0.75rem;margin-top:4px;">TecCoop &mdash; No.128, Highlevel Road, Nugegoda &bull; +94 70 363 0683</p>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="features.html">Features</a>
+      <a href="database.html">Database</a>
+      <a href="api.html">API</a>
+      <a href="timeline.html">Timeline</a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture — MVDSMS | TecCoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><img src="logo.svg" alt="TecCoop"></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="architecture.html" class="active">Architecture</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="database.html">Database</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="timeline.html">Timeline</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>System Architecture</h1>
+    <p>Monolithic Java/Jakarta EE application with modern React frontends and offline-first mobile</p>
+  </section>
+
+  <!-- ARCHITECTURE OVERVIEW -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Overview</div>
+        <h2>Monolithic Architecture</h2>
+        <p>Single deployable WAR application on WildFly 31, serving multiple frontend clients via RESTful APIs</p>
+      </div>
+
+      <div class="arch-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           CLIENT LAYER                                  │
+│                                                                         │
+│  ┌─────────────┐  ┌─────────────┐  ┌───────────────┐  ┌────────────┐  │
+│  │  AdminApp   │  │ FinanceApp  │  │CustomerPortal │  │ Mobile App │  │
+│  │  React 18.2 │  │ React 18.2  │  │  React 18.2   │  │(React Nat.)│  │
+│  │  :3000      │  │  :3001      │  │  :3002        │  │ Android/iOS│  │
+│  └──────┬──────┘  └──────┬──────┘  └───────┬───────┘  └─────┬──────┘  │
+└─────────┼────────────────┼─────────────────┼─────────────────┼──────────┘
+          │                │                 │                 │
+          ▼                ▼                 ▼                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    REVERSE PROXY (Nginx)                                │
+│                 SSL Termination (port 443)                              │
+└─────────────────────────────┬───────────────────────────────────────────┘
+                              │
+┌─────────────────────────────▼───────────────────────────────────────────┐
+│              MONOLITHIC APPLICATION SERVER (WildFly 31 + JDK 17)       │
+│              Deployed as WAR on Jakarta EE 10 Container                │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │                    JAX-RS REST API Layer                        │    │
+│  │              (MicroProfile OpenAPI 3.1 documented)             │    │
+│  └─────────────────────────────┬───────────────────────────────────┘    │
+│                                │                                        │
+│  ┌─────────────────────────────▼───────────────────────────────────┐    │
+│  │                    EJB Business Logic Layer                     │    │
+│  │                                                                 │    │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌───────────────────┐ │    │
+│  │  │ Auth &   │ │ Order    │ │Inventory │ │ Voucher / Invoice │ │    │
+│  │  │ User Mgmt│ │ Mgmt     │ │ Mgmt     │ │ Module            │ │    │
+│  │  ├──────────┤ ├──────────┤ ├──────────┤ ├───────────────────┤ │    │
+│  │  │ Catalog  │ │ Delivery │ │ Vehicle  │ │ Payment           │ │    │
+│  │  │ Mgmt     │ │ Mgmt     │ │ Mgmt     │ │ Collection        │ │    │
+│  │  ├──────────┤ ├──────────┤ ├──────────┤ ├───────────────────┤ │    │
+│  │  │ Org &    │ │ Route    │ │ Report   │ │ Notification      │ │    │
+│  │  │ Shop Mgmt│ │ Planning │ │ Engine   │ │ (Email/WhatsApp)  │ │    │
+│  │  └──────────┘ └──────────┘ └──────────┘ └───────────────────┘ │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │              JPA / Hibernate 6.2.x ORM Layer                   │    │
+│  └─────────────────────────────┬───────────────────────────────────┘    │
+│                                │                                        │
+│  ┌──────────────┐  ┌──────────▼──────┐  ┌──────────────────────────┐   │
+│  │ Redis Cache  │  │ MariaDB 10.6    │  │ JasperReports 6.20.6    │   │
+│  │ (Jedis 5.0.2)│  │ (JDBC 3.x /    │  │ (PDF/Excel Generation)  │   │
+│  │              │  │  MySQL Conn 8.0)│  │                          │   │
+│  └──────────────┘  └─────────────────┘  └──────────────────────────┘   │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │  Jakarta Mail 2.0.1  │  Meta WhatsApp Cloud API  │  FCM/APNs  │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────┘
+</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK TABLES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Technology Stack</div>
+        <h2>Backend Technologies</h2>
+      </div>
+      <div class="table-wrapper" style="margin-bottom:48px;">
+        <table class="data-table">
+          <thead>
+            <tr><th>Layer</th><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Language</td><td><strong>Java</strong></td><td>17</td><td>Core programming language</td></tr>
+            <tr><td>Platform</td><td><strong>Jakarta EE</strong></td><td>10.0.0</td><td>Enterprise application platform</td></tr>
+            <tr><td>App Server</td><td><strong>WildFly</strong></td><td>31.0.1</td><td>Application server / runtime</td></tr>
+            <tr><td>ORM</td><td><strong>Hibernate</strong></td><td>6.2.x</td><td>Object-relational mapping (JPA)</td></tr>
+            <tr><td>REST</td><td><strong>JAX-RS</strong></td><td>Jakarta EE built-in</td><td>RESTful web services</td></tr>
+            <tr><td>Business Logic</td><td><strong>EJB</strong></td><td>Jakarta EE built-in</td><td>Stateless session beans</td></tr>
+            <tr><td>Auth</td><td><strong>JWT (jjwt)</strong></td><td>0.11.5</td><td>Token-based authentication</td></tr>
+            <tr><td>Password</td><td><strong>BCrypt (jbcrypt)</strong></td><td>0.4</td><td>Password hashing</td></tr>
+            <tr><td>JSON</td><td><strong>Jackson</strong></td><td>2.15.x</td><td>JSON serialization/deserialization</td></tr>
+            <tr><td>Reports</td><td><strong>JasperReports</strong></td><td>6.20.6</td><td>PDF/Excel report generation</td></tr>
+            <tr><td>Cache</td><td><strong>Redis (Jedis)</strong></td><td>5.0.2</td><td>Session cache, hot data caching</td></tr>
+            <tr><td>Email</td><td><strong>Jakarta Mail</strong></td><td>2.0.1</td><td>Email notifications</td></tr>
+            <tr><td>API Docs</td><td><strong>MicroProfile OpenAPI</strong></td><td>3.1</td><td>Auto-generated API documentation</td></tr>
+            <tr><td>Build</td><td><strong>Maven</strong></td><td>&mdash;</td><td>Build and dependency management</td></tr>
+            <tr><td>Testing</td><td><strong>JUnit 5 + Mockito</strong></td><td>5.10 / 5.7</td><td>Unit and integration testing</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-header">
+        <h2>Frontend Technologies</h2>
+        <p>Shared stack across AdminApp, FinanceApp, and CustomerPortal</p>
+      </div>
+      <div class="table-wrapper" style="margin-bottom:48px;">
+        <table class="data-table">
+          <thead>
+            <tr><th>Layer</th><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Framework</td><td><strong>React</strong></td><td>18.2</td><td>UI component library</td></tr>
+            <tr><td>Language</td><td><strong>TypeScript</strong></td><td>5.3</td><td>Type-safe JavaScript</td></tr>
+            <tr><td>Build Tool</td><td><strong>Vite</strong></td><td>5.0</td><td>Fast dev server & bundler</td></tr>
+            <tr><td>Routing</td><td><strong>React Router DOM</strong></td><td>6.21</td><td>Client-side routing</td></tr>
+            <tr><td>HTTP Client</td><td><strong>Axios</strong></td><td>1.6</td><td>API communication</td></tr>
+            <tr><td>State</td><td><strong>Zustand</strong></td><td>4.4</td><td>Global state management</td></tr>
+            <tr><td>Styling</td><td><strong>Tailwind CSS</strong></td><td>3.4</td><td>Utility-first CSS framework</td></tr>
+            <tr><td>Icons</td><td><strong>Lucide React</strong></td><td>0.300</td><td>Icon library</td></tr>
+            <tr><td>Charts</td><td><strong>Recharts</strong></td><td>2.10</td><td>Data visualization</td></tr>
+            <tr><td>Forms</td><td><strong>React Hook Form</strong></td><td>7.49</td><td>Form handling & validation</td></tr>
+            <tr><td>Server State</td><td><strong>TanStack React Query</strong></td><td>5.8</td><td>API data fetching & caching</td></tr>
+            <tr><td>Dates</td><td><strong>date-fns</strong></td><td>3.0</td><td>Date manipulation</td></tr>
+            <tr><td>Toasts</td><td><strong>React Hot Toast</strong></td><td>2.4</td><td>Notification toasts</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-header">
+        <h2>Infrastructure & Database</h2>
+      </div>
+      <div class="card-grid card-grid-3">
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:12px;">&#128450;</div>
+          <h3>MariaDB 10.6</h3>
+          <p>Relational database. Shared schema <code>mvdsms_system</code>. JDBC 3.x / MySQL Connector 8.0.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:12px;">&#9889;</div>
+          <h3>Redis 5.0.2</h3>
+          <p>In-memory cache via Jedis client. Session management, frequently accessed data, generated PDF caching.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:12px;">&#128230;</div>
+          <h3>Docker Compose</h3>
+          <p>Containerized deployment. WildFly + MariaDB + Redis + 3 React apps. Nginx reverse proxy with SSL.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFLINE ARCHITECTURE -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Mobile</div>
+        <h2>Offline-First Architecture</h2>
+        <p>All field operations work without internet. Data syncs automatically when connectivity is restored.</p>
+      </div>
+
+      <div class="arch-diagram" style="margin-bottom:40px;">
+<pre>
+┌──────────────────────────────────────────────────┐
+│                 MOBILE DEVICE                     │
+│                                                    │
+│  ┌──────────────────┐   ┌───────────────────┐    │
+│  │  React Native    │   │  Local SQLite     │    │
+│  │  App Logic       │──▶│  Database         │    │
+│  │                  │   │  (Mirror Schema)  │    │
+│  └────────┬─────────┘   └─────────┬─────────┘    │
+│           │                       │               │
+│  ┌────────▼───────────────────────▼────────────┐  │
+│  │            Sync Engine                      │  │
+│  │                                              │  │
+│  │  ┌────────────────┐  ┌───────────────────┐  │  │
+│  │  │ Outbound Queue │  │ Conflict Resolver │  │  │
+│  │  │ (Orders, Pays) │  │ (Timestamp-based) │  │  │
+│  │  └────────┬───────┘  └───────────────────┘  │  │
+│  │           │                                  │  │
+│  └───────────┼──────────────────────────────────┘  │
+└──────────────┼──────────────────────────────────────┘
+               │ (When online)
+               ▼
+┌──────────────────────────────────────────────────┐
+│     WildFly Server (Monolith)                    │
+│                                                    │
+│  ┌──────────────────────────────────────────┐    │
+│  │  /api/v1/sync/push   — Receive offline   │    │
+│  │  /api/v1/sync/pull   — Send updates      │    │
+│  │  /api/v1/sync/status — Check sync state  │    │
+│  └──────────────────────────────────────────┘    │
+│                                                    │
+│  ┌──────────────────────────────────────────┐    │
+│  │  Server-Side Validation & Merge          │    │
+│  │  • Inventory re-check on order sync      │    │
+│  │  • Duplicate detection (idempotency key) │    │
+│  │  • Conflict log for manual resolution    │    │
+│  └──────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────┘
+</pre>
+      </div>
+
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <h3>&#128268; Offline Capabilities</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;">
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Order collection works fully offline</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Delivery confirmation with signature & photo</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Payment recording offline</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; GPS coordinates captured and queued</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Product catalog cached locally</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Sync queue persists across app restarts</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>&#128260; Sync & Conflict Resolution</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;">
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Auto-sync when connectivity restored</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; UUID idempotency keys prevent duplicates</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Timestamp-based last-write-wins strategy</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Server-side inventory re-validation</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; Conflict log for manual resolution</li>
+            <li style="padding:6px 0;color:var(--gray-700);font-size:0.9rem;">&#10003; sync_log table for audit trail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPLOYMENT ARCHITECTURE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Deployment</div>
+        <h2>Production Deployment</h2>
+        <p>All services containerized via Docker Compose behind Nginx reverse proxy</p>
+      </div>
+
+      <div class="arch-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│                    PRODUCTION SERVER                         │
+│                                                              │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  Host Nginx (port 443 — SSL Termination)               │ │
+│  │  ├── /admin/*     → localhost:3000 (AdminApp)          │ │
+│  │  ├── /finance/*   → localhost:3001 (FinanceApp)        │ │
+│  │  ├── /portal/*    → localhost:3002 (CustomerPortal)    │ │
+│  │  ├── /api/*       → localhost:8080 (WildFly)           │ │
+│  │  └── /mobile-api/*→ localhost:8080 (WildFly)           │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                                                              │
+│  ┌──── Docker Compose ────────────────────────────────────┐ │
+│  │                                                         │ │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌───────────────┐  │ │
+│  │  │ WildFly 31  │  │ MariaDB 10.6│  │ Redis 5.0.2   │  │ │
+│  │  │ + JDK 17    │  │             │  │ (Jedis)       │  │ │
+│  │  │ :8080       │  │ :3306       │  │ :6379         │  │ │
+│  │  │ (WAR deploy)│  │ (mvdsms_    │  │               │  │ │
+│  │  │             │  │  system)    │  │               │  │ │
+│  │  └─────────────┘  └─────────────┘  └───────────────┘  │ │
+│  │                                                         │ │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌───────────────┐  │ │
+│  │  │ AdminApp    │  │ FinanceApp  │  │CustomerPortal │  │ │
+│  │  │ (React)     │  │ (React)     │  │ (React)       │  │ │
+│  │  │ :3000       │  │ :3001       │  │ :3002         │  │ │
+│  │  └─────────────┘  └─────────────┘  └───────────────┘  │ │
+│  │                                                         │ │
+│  └─────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAVEN STRUCTURE -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Project Structure</div>
+        <h2>Backend Maven Layout</h2>
+        <p>Layered package structure: JAX-RS &rarr; EJB Service &rarr; JPA Repository &rarr; Entity</p>
+      </div>
+
+      <div class="arch-diagram">
+<pre>
+mvdsms/
+├── pom.xml                          (Java 17, Jakarta EE 10, WildFly BOM)
+├── src/
+│   ├── main/
+│   │   ├── java/com/teccoop/mvdsms/
+│   │   │   ├── config/              (CORS, JWT filter, app config)
+│   │   │   ├── entity/              (JPA @Entity — 57 tables)
+│   │   │   │   ├── user/            (GeneralUserProfile, GeneralRole, ...)
+│   │   │   │   ├── organization/    (GeneralOrganizationProfile, OrgAddress, ...)
+│   │   │   │   ├── product/         (Product, ProductCategory, ProductImage, ...)
+│   │   │   │   ├── inventory/       (Inventory, InventoryBatch, InventoryMovement, ...)
+│   │   │   │   ├── order/           (SalesOrder, SalesOrderItem, OrderStatusHistory)
+│   │   │   │   ├── delivery/        (Vehicle, DeliveryTrip, DeliveryConfirmation, ...)
+│   │   │   │   ├── voucher/         (Voucher, VoucherLine, VoucherType, ...)
+│   │   │   │   ├── payment/         (Payment, PaymentAllocation, ShopLedger, ...)
+│   │   │   │   ├── route/           (RoutePlan, RoutePlanStop, GpsTrackingLog, ...)
+│   │   │   │   └── system/          (TaxRate, SystemConfiguration, Notification, ...)
+│   │   │   ├── repository/          (JPA DAO classes)
+│   │   │   ├── service/             (EJB @Stateless business logic)
+│   │   │   ├── rest/                (JAX-RS @Path — 13 resource classes)
+│   │   │   ├── dto/                 (Request/Response DTOs)
+│   │   │   ├── mapper/              (Entity ↔ DTO mappers)
+│   │   │   ├── security/            (JWT provider, auth filter, RBAC)
+│   │   │   ├── exception/           (Custom exceptions, ExceptionMapper)
+│   │   │   └── util/                (Helpers, constants, validators)
+│   │   ├── resources/
+│   │   │   ├── META-INF/persistence.xml   (Hibernate/MariaDB config)
+│   │   │   └── reports/                    (JasperReports .jrxml templates)
+│   │   └── webapp/WEB-INF/web.xml
+│   └── test/java/com/teccoop/mvdsms/     (JUnit 5 + Mockito)
+├── Dockerfile                       (WildFly 31 + WAR)
+├── docker-compose.yml               (Full stack)
+└── README.md
+</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">MVDSMS &mdash; Multi-Vendor Distribution & Sales Management System</div>
+    <p>A project of <strong>TecCoop</strong> &mdash; Elevating Cooperatives to the next level by using technology</p>
+    <p>Developed by <strong>Temco Bank Web Services</strong> &bull; SRS v2.0 &bull; February 2026</p>
+    <p style="font-size:0.75rem;margin-top:4px;">TecCoop &mdash; No.128, Highlevel Road, Nugegoda &bull; +94 70 363 0683</p>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="features.html">Features</a>
+      <a href="database.html">Database</a>
+      <a href="api.html">API</a>
+      <a href="timeline.html">Timeline</a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

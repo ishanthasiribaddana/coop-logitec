@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MVDSMS — Multi-Vendor Distribution & Sales Management System | TecCoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><img src="logo.svg" alt="TecCoop"></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Overview</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="database.html">Database</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="timeline.html">Timeline</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">SRS v2.0 &mdash; Project Scope Document</div>
+      <h1>Multi-Vendor Distribution &<br><span>Sales Management System</span></h1>
+      <p>A mobile-first platform that digitizes the entire distribution supply chain &mdash; from order collection at retail shops to final payment reconciliation. Connecting Vendors, Distributors, Sales Reps, Delivery Personnel, and Retail Shops on a unified platform.</p>
+      <p style="font-size:0.85rem;color:#e8a0ce;margin-top:-16px;margin-bottom:24px;">Developed by <strong>Temco Bank Web Services</strong> for <strong>TecCoop</strong></p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">57</div>
+          <div class="hero-stat-label">Database Tables</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">135</div>
+          <div class="hero-stat-label">API Endpoints</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">11</div>
+          <div class="hero-stat-label">Core Modules</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">8.5</div>
+          <div class="hero-stat-label">Months Timeline</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPLY CHAIN FLOW -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Supply Chain</div>
+        <h2>End-to-End Distribution Flow</h2>
+        <p>MVDSMS replaces manual, paper-based distribution workflows with a fully digital system</p>
+      </div>
+      <div class="flow-chain">
+        <div class="flow-node">
+          <div class="flow-node-icon">&#127981;</div>
+          <div class="flow-node-title">Vendors</div>
+          <div class="flow-node-sub">Manufacturers / Suppliers</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">&#127970;</div>
+          <div class="flow-node-title">Distributors</div>
+          <div class="flow-node-sub">Warehouse & Operations</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">&#128100;</div>
+          <div class="flow-node-title">Sales Reps</div>
+          <div class="flow-node-sub">Field Order Collection</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">&#128666;</div>
+          <div class="flow-node-title">Delivery</div>
+          <div class="flow-node-sub">Vehicle & Route Mgmt</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-node">
+          <div class="flow-node-icon">&#127978;</div>
+          <div class="flow-node-title">Retail Shops</div>
+          <div class="flow-node-sub">End Customers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE APP SHOWCASE -->
+  <section class="mobile-showcase">
+    <div class="mobile-showcase-inner">
+      <!-- Left: Text + Tabs -->
+      <div class="mobile-showcase-text">
+        <div class="section-label">Mobile Application</div>
+        <h2>Offline-First Field Operations</h2>
+        <p>React Native app for Sales Reps and Delivery Personnel. Works fully offline with SQLite local database &mdash; syncs automatically when connectivity is restored.</p>
+
+        <div class="screen-tabs">
+          <div class="screen-tab active" data-screen="dashboard" onclick="switchScreen('dashboard')">
+            <span class="screen-tab-icon">&#127968;</span> Dashboard
+          </div>
+          <div class="screen-tab" data-screen="order" onclick="switchScreen('order')">
+            <span class="screen-tab-icon">&#128196;</span> Create Order
+          </div>
+          <div class="screen-tab" data-screen="delivery" onclick="switchScreen('delivery')">
+            <span class="screen-tab-icon">&#128666;</span> Delivery
+          </div>
+          <div class="screen-tab" data-screen="payment" onclick="switchScreen('payment')">
+            <span class="screen-tab-icon">&#128176;</span> Payment
+          </div>
+        </div>
+
+        <div class="feature-list-container">
+          <div class="feature-list active" data-screen="dashboard">
+            <ul class="screen-features">
+              <li>Today's route with interactive map and color-coded shop pins</li>
+              <li>Summary cards: shops to visit, orders placed, payments collected</li>
+              <li>GPS check-in/check-out with geo-fence validation</li>
+              <li>Real-time sync status indicator (online/offline/syncing)</li>
+              <li>Shop list sorted by route sequence with outstanding balance</li>
+            </ul>
+          </div>
+          <div class="feature-list" data-screen="order">
+            <ul class="screen-features">
+              <li>Search products by name, SKU, or barcode scan</li>
+              <li>Browse by category with real-time stock availability</li>
+              <li>Add to cart with quantity, discount, and tax preview</li>
+              <li>Floating cart bar with item count and grand total</li>
+              <li>Submit order offline &mdash; syncs with idempotency key</li>
+            </ul>
+          </div>
+          <div class="feature-list" data-screen="delivery">
+            <ul class="screen-features">
+              <li>Active trip with vehicle info and delivery list</li>
+              <li>Loading confirmation with barcode scanner</li>
+              <li>Delivery confirmation: signature pad + photo proof + GPS</li>
+              <li>Record partial deliveries and returns with reason codes</li>
+              <li>Trip reconciliation: loaded vs delivered vs returned</li>
+            </ul>
+          </div>
+          <div class="feature-list" data-screen="payment">
+            <ul class="screen-features">
+              <li>View outstanding invoices per shop with aging highlights</li>
+              <li>Multi-mode: Cash, Cheque, UPI, Bank Transfer</li>
+              <li>Auto-generated receipt with PDF download</li>
+              <li>GPS-tagged payment with daily collection summary</li>
+              <li>Partial payments with auto-allocation to oldest invoices</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Phone Mockup -->
+      <div class="phone-container">
+        <div class="phone-frame">
+          <div class="phone-screen">
+
+            <!-- SCREEN 1: Dashboard -->
+            <div class="phone-screen-content active" data-screen="dashboard">
+              <div class="phone-status-bar">
+                <span>9:41</span>
+                <div class="phone-status-icons">
+                  <span>&#9679;&#9679;&#9679;&#9679;</span>
+                  <span>WiFi</span>
+                  <span>85%</span>
+                </div>
+              </div>
+              <div class="phone-header">
+                <div class="phone-header-left">
+                  <div class="phone-header-avatar">KP</div>
+                  <div>
+                    <div class="phone-header-title">Good Morning, Kamal</div>
+                    <div class="phone-header-sub">Sales Rep &bull; Metro Distributors</div>
+                  </div>
+                </div>
+                <div class="phone-header-icons">
+                  <span class="phone-sync-badge sync-online">&#9679; Online</span>
+                  &#128276;
+                </div>
+              </div>
+              <div class="phone-stats-row">
+                <div class="phone-stat-card highlight">
+                  <div class="phone-stat-value">12</div>
+                  <div class="phone-stat-label">Shops</div>
+                </div>
+                <div class="phone-stat-card">
+                  <div class="phone-stat-value">5</div>
+                  <div class="phone-stat-label">Orders</div>
+                </div>
+                <div class="phone-stat-card">
+                  <div class="phone-stat-value">48K</div>
+                  <div class="phone-stat-label">Value</div>
+                </div>
+              </div>
+              <div class="phone-section-title">&#128205; Today's Route</div>
+              <div class="phone-map">
+                <div class="phone-map-pins">
+                  <div class="phone-map-pin pin-visited"></div>
+                  <div class="phone-map-pin pin-visited"></div>
+                  <div class="phone-map-pin pin-current"></div>
+                  <div class="phone-map-pin pin-pending"></div>
+                  <div class="phone-map-pin pin-pending2"></div>
+                </div>
+              </div>
+              <div class="phone-section-title">Upcoming Shops</div>
+              <div class="phone-list">
+                <div class="phone-list-item">
+                  <div class="phone-list-icon" style="background:var(--accent-light);">&#127978;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">Saman Grocery</div>
+                    <div class="phone-list-detail">Nugegoda &bull; Last visit: 3 days ago</div>
+                  </div>
+                  <div class="phone-list-badge" style="background:var(--green-light);color:var(--green);">Next</div>
+                </div>
+                <div class="phone-list-item">
+                  <div class="phone-list-icon" style="background:var(--primary-light);">&#127978;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">City Mart</div>
+                    <div class="phone-list-detail">Dehiwala &bull; Balance: Rs.12,500</div>
+                  </div>
+                  <div class="phone-list-badge" style="background:var(--orange-light);color:var(--orange);">Due</div>
+                </div>
+                <div class="phone-list-item">
+                  <div class="phone-list-icon" style="background:var(--green-light);">&#127978;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">Lanka Super</div>
+                    <div class="phone-list-detail">Mt. Lavinia &bull; Last visit: 5 days ago</div>
+                  </div>
+                  <div class="phone-list-amount">&#10132;</div>
+                </div>
+              </div>
+              <div class="phone-bottom-nav">
+                <div class="phone-nav-item active"><span class="phone-nav-icon">&#127968;</span>Home</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128196;</span>Orders</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128230;</span>Products</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128176;</span>Payments</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#8943;</span>More</div>
+              </div>
+            </div>
+
+            <!-- SCREEN 2: Create Order -->
+            <div class="phone-screen-content" data-screen="order">
+              <div class="phone-status-bar">
+                <span>10:15</span>
+                <div class="phone-status-icons">
+                  <span>&#9679;&#9679;&#9679;&#9679;</span>
+                  <span>WiFi</span>
+                  <span>78%</span>
+                </div>
+              </div>
+              <div class="phone-header">
+                <div class="phone-header-left">
+                  <div style="font-size:1rem;">&#8592;</div>
+                  <div>
+                    <div class="phone-header-title">New Order</div>
+                    <div class="phone-header-sub">Saman Grocery &bull; Nugegoda</div>
+                  </div>
+                </div>
+                <div class="phone-header-icons">
+                  <span class="phone-sync-badge sync-online">&#9679; Online</span>
+                </div>
+              </div>
+              <div class="phone-search">
+                &#128269; Search products or scan barcode...
+              </div>
+              <div class="phone-category-tabs">
+                <div class="phone-cat-tab active">All</div>
+                <div class="phone-cat-tab">Beverages</div>
+                <div class="phone-cat-tab">Snacks</div>
+                <div class="phone-cat-tab">Dairy</div>
+                <div class="phone-cat-tab">Rice</div>
+              </div>
+              <div class="phone-product-grid">
+                <div class="phone-product-card">
+                  <div class="phone-product-img">&#127861;</div>
+                  <div class="phone-product-name">Ceylon Tea 100g</div>
+                  <div class="phone-product-price">Rs. 320</div>
+                  <div class="phone-product-stock">Stock: 245</div>
+                </div>
+                <div class="phone-product-card">
+                  <div class="phone-product-img">&#127868;</div>
+                  <div class="phone-product-name">Coconut Milk 400ml</div>
+                  <div class="phone-product-price">Rs. 185</div>
+                  <div class="phone-product-stock">Stock: 120</div>
+                </div>
+                <div class="phone-product-card">
+                  <div class="phone-product-img">&#127834;</div>
+                  <div class="phone-product-name">Basmati Rice 5kg</div>
+                  <div class="phone-product-price">Rs. 1,450</div>
+                  <div class="phone-product-stock">Stock: 89</div>
+                </div>
+                <div class="phone-product-card">
+                  <div class="phone-product-img">&#127849;</div>
+                  <div class="phone-product-name">Cream Crackers</div>
+                  <div class="phone-product-price">Rs. 210</div>
+                  <div class="phone-product-stock">Stock: 340</div>
+                </div>
+              </div>
+              <div class="phone-cart-bar">
+                <div>
+                  <div class="phone-cart-info">3 items in cart</div>
+                  <div class="phone-cart-total">Rs. 4,280</div>
+                </div>
+                <div class="phone-cart-btn">Review Order &#10132;</div>
+              </div>
+              <div class="phone-bottom-nav">
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#127968;</span>Home</div>
+                <div class="phone-nav-item active"><span class="phone-nav-icon">&#128196;</span>Orders</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128230;</span>Products</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128176;</span>Payments</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#8943;</span>More</div>
+              </div>
+            </div>
+
+            <!-- SCREEN 3: Delivery -->
+            <div class="phone-screen-content" data-screen="delivery">
+              <div class="phone-status-bar">
+                <span>2:30 PM</span>
+                <div class="phone-status-icons">
+                  <span>&#9679;&#9679;&#9679;</span>
+                  <span>4G</span>
+                  <span>62%</span>
+                </div>
+              </div>
+              <div class="phone-header">
+                <div class="phone-header-left">
+                  <div class="phone-header-avatar" style="background:linear-gradient(135deg,#059669,#0891b2);">NR</div>
+                  <div>
+                    <div class="phone-header-title">Trip #DT-2026-0042</div>
+                    <div class="phone-header-sub">Vehicle: WP-KA-5521 &bull; 8 stops</div>
+                  </div>
+                </div>
+                <div class="phone-header-icons">
+                  <span class="phone-sync-badge sync-online">&#9679; Online</span>
+                </div>
+              </div>
+              <div class="phone-stats-row">
+                <div class="phone-stat-card">
+                  <div class="phone-stat-value">5/8</div>
+                  <div class="phone-stat-label">Delivered</div>
+                </div>
+                <div class="phone-stat-card highlight">
+                  <div class="phone-stat-value">62%</div>
+                  <div class="phone-stat-label">Complete</div>
+                </div>
+                <div class="phone-stat-card">
+                  <div class="phone-stat-value">1</div>
+                  <div class="phone-stat-label">Returns</div>
+                </div>
+              </div>
+              <div class="phone-progress"><div class="phone-progress-fill" style="width:62%;"></div></div>
+              <div class="phone-section-title">&#128666; Current Delivery</div>
+              <div class="phone-list">
+                <div class="phone-list-item" style="border-color:var(--accent);background:var(--accent-light);">
+                  <div class="phone-list-icon" style="background:var(--accent);color:white;">&#127978;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">Perera Stores</div>
+                    <div class="phone-list-detail">DN-2026-00187 &bull; 6 items &bull; Rs.8,450</div>
+                  </div>
+                  <div class="phone-list-badge" style="background:var(--accent);color:white;">Active</div>
+                </div>
+              </div>
+              <div class="phone-section-title">Confirm Delivery</div>
+              <div class="phone-list">
+                <div class="phone-list-item">
+                  <div class="phone-list-icon" style="background:var(--green-light);">&#10003;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">Ceylon Tea 100g &times; 24</div>
+                    <div class="phone-list-detail">Delivered: 24 &bull; Returned: 0</div>
+                  </div>
+                </div>
+                <div class="phone-list-item">
+                  <div class="phone-list-icon" style="background:var(--orange-light);">&#9888;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">Coconut Milk 400ml &times; 12</div>
+                    <div class="phone-list-detail">Delivered: 10 &bull; Returned: 2 (Damaged)</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-signature">&#9997; Tap to capture signature</div>
+              <div class="phone-confirm-btn">&#10003; Complete Delivery</div>
+              <div class="phone-bottom-nav">
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#127968;</span>Trip</div>
+                <div class="phone-nav-item active"><span class="phone-nav-icon">&#128666;</span>Deliver</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128247;</span>Photo</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128176;</span>Collect</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#8943;</span>More</div>
+              </div>
+            </div>
+
+            <!-- SCREEN 4: Payment -->
+            <div class="phone-screen-content" data-screen="payment">
+              <div class="phone-status-bar">
+                <span>3:45 PM</span>
+                <div class="phone-status-icons">
+                  <span>&#9679;&#9679;</span>
+                  <span>3G</span>
+                  <span>45%</span>
+                </div>
+              </div>
+              <div class="phone-header">
+                <div class="phone-header-left">
+                  <div style="font-size:1rem;">&#8592;</div>
+                  <div>
+                    <div class="phone-header-title">Collect Payment</div>
+                    <div class="phone-header-sub">Perera Stores &bull; Maharagama</div>
+                  </div>
+                </div>
+                <div class="phone-header-icons">
+                  <span class="phone-sync-badge sync-offline">&#9679; Offline (2)</span>
+                </div>
+              </div>
+              <div class="phone-section-title">Outstanding Invoices</div>
+              <div class="phone-list">
+                <div class="phone-list-item" style="border-color:var(--red);border-width:1px;">
+                  <div class="phone-list-icon" style="background:var(--red-light);">&#128196;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">INV-2026-00145</div>
+                    <div class="phone-list-detail">Jan 28 &bull; 15 days overdue</div>
+                  </div>
+                  <div class="phone-list-amount" style="color:var(--red);">Rs.12,500</div>
+                </div>
+                <div class="phone-list-item">
+                  <div class="phone-list-icon" style="background:var(--orange-light);">&#128196;</div>
+                  <div class="phone-list-info">
+                    <div class="phone-list-name">INV-2026-00187</div>
+                    <div class="phone-list-detail">Feb 8 &bull; Due in 5 days</div>
+                  </div>
+                  <div class="phone-list-amount">Rs.8,450</div>
+                </div>
+              </div>
+              <div class="phone-section-title">Payment Details</div>
+              <div style="padding:0 12px;margin-bottom:8px;">
+                <div style="background:var(--gray-50);border-radius:10px;padding:12px;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                    <span style="font-size:0.7rem;color:var(--gray-600);font-weight:600;">Amount</span>
+                    <span style="font-size:0.9rem;font-weight:800;color:var(--dark);">Rs. 12,500</span>
+                  </div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;">
+                    <div style="flex:1;padding:6px;background:var(--accent);color:white;border-radius:6px;text-align:center;font-size:0.6rem;font-weight:700;">CASH</div>
+                    <div style="flex:1;padding:6px;background:var(--gray-100);border-radius:6px;text-align:center;font-size:0.6rem;font-weight:600;color:var(--gray-600);">CHEQUE</div>
+                    <div style="flex:1;padding:6px;background:var(--gray-100);border-radius:6px;text-align:center;font-size:0.6rem;font-weight:600;color:var(--gray-600);">UPI</div>
+                    <div style="flex:1;padding:6px;background:var(--gray-100);border-radius:6px;text-align:center;font-size:0.6rem;font-weight:600;color:var(--gray-600);">BANK</div>
+                  </div>
+                  <div style="font-size:0.55rem;color:var(--gray-500);">&#128205; GPS: 6.8649&deg;N, 79.8997&deg;E &bull; Auto-captured</div>
+                </div>
+              </div>
+              <div class="phone-confirm-btn">&#128176; Record Payment &amp; Generate Receipt</div>
+              <div style="padding:8px 12px;">
+                <div style="background:var(--green-light);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:1rem;">&#9989;</span>
+                  <div>
+                    <div style="font-size:0.7rem;font-weight:700;color:var(--green);">Today's Collection</div>
+                    <div style="font-size:0.6rem;color:var(--green);">Cash: Rs.32,400 &bull; Cheque: Rs.15,000 &bull; UPI: Rs.8,200</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-bottom-nav">
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#127968;</span>Home</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128196;</span>Orders</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#128230;</span>Products</div>
+                <div class="phone-nav-item active"><span class="phone-nav-icon">&#128176;</span>Payments</div>
+                <div class="phone-nav-item"><span class="phone-nav-icon">&#8943;</span>More</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT FUNCTIONS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Core Functions</div>
+        <h2>What the System Does</h2>
+        <p>10 major functional areas covering the complete distribution lifecycle</p>
+      </div>
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <div class="card-icon card-icon-blue">&#128230;</div>
+          <h3>F1 &mdash; Multi-Vendor Catalog Management</h3>
+          <p>Vendors manage product catalogs with SKUs, images, pricing tiers. Distributors select which products to carry and set their own selling prices.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-cyan">&#127970;</div>
+          <h3>F2 &mdash; Distributor Onboarding & Management</h3>
+          <p>Distributors register, manage warehouses, vehicles, staff, and configure business rules like credit limits and payment terms.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-green">&#128205;</div>
+          <h3>F3 &mdash; Sales Rep Field Operations</h3>
+          <p>Route planning, shop visits with GPS check-in, order collection (offline-capable), payment collection, and daily summaries.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-orange">&#128196;</div>
+          <h3>F4 &mdash; Order Management</h3>
+          <p>Full order lifecycle: Draft &rarr; Submitted &rarr; Approved &rarr; Processing &rarr; Loaded &rarr; In Transit &rarr; Delivered &rarr; Completed.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-purple">&#128451;</div>
+          <h3>F5 &mdash; Inventory Management</h3>
+          <p>Real-time stock tracking across warehouses and vehicles. GRN, batch tracking, stock adjustments, low-stock alerts, and movement history.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-red">&#128666;</div>
+          <h3>F6 &mdash; Vehicle & Delivery Management</h3>
+          <p>Load planning with capacity validation, route optimization, real-time GPS tracking, delivery confirmation with signature and photo proof.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-cyan">&#128203;</div>
+          <h3>F7 &mdash; Voucher Module (DN, Invoice, Receipt, CN)</h3>
+          <p>Unified voucher system for Delivery Notes, Invoices, Receipts, Credit Notes, and Loading Notes. Auto-generated PDFs via JasperReports.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-green">&#128176;</div>
+          <h3>F8 &mdash; Payment Collection & Reconciliation</h3>
+          <p>Multi-mode payments (Cash, Cheque, UPI, Bank Transfer, Credit). Daily collection summaries, verification workflow, and shop ledger.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-blue">&#128276;</div>
+          <h3>F9 &mdash; Notifications & Alerts</h3>
+          <p>Push notifications (FCM), SMS, Email (Jakarta Mail), and WhatsApp (Meta API) for order updates, delivery, payments, and low stock alerts.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-orange">&#128202;</div>
+          <h3>F10 &mdash; Reporting & Analytics</h3>
+          <p>Sales dashboards, rep performance, product analytics, inventory reports, financial summaries, and receivables aging. Export to PDF/Excel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER ROLES -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">User Roles</div>
+        <h2>Who Uses the System</h2>
+        <p>6 distinct user roles across mobile and web platforms</p>
+      </div>
+      <div class="card-grid card-grid-3">
+        <div class="card">
+          <div class="role-card">
+            <div class="role-avatar card-icon-purple" style="background:var(--purple-light);">&#128119;</div>
+            <div class="role-info">
+              <h3>System Administrator</h3>
+              <p>Manages the entire platform. Full CRUD on all entities, user management, system configuration.</p>
+              <div class="role-platform"><span class="badge badge-blue">Web &mdash; AdminApp</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="role-card">
+            <div class="role-avatar" style="background:var(--orange-light);">&#127981;</div>
+            <div class="role-info">
+              <h3>Vendor (Supplier)</h3>
+              <p>Provides products. Manages catalog, pricing tiers, views sales analytics for own products.</p>
+              <div class="role-platform"><span class="badge badge-cyan">Web &mdash; CustomerPortal</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="role-card">
+            <div class="role-avatar" style="background:var(--primary-light);">&#127970;</div>
+            <div class="role-info">
+              <h3>Distributor</h3>
+              <p>Warehouses products, manages staff, vehicles, orders, invoices, payments, and reports.</p>
+              <div class="role-platform">
+                <span class="badge badge-blue">AdminApp</span>
+                <span class="badge badge-green">FinanceApp</span>
+                <span class="badge badge-purple">Mobile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="role-card">
+            <div class="role-avatar" style="background:var(--green-light);">&#128694;</div>
+            <div class="role-info">
+              <h3>Sales Representative</h3>
+              <p>Field agent visiting shops. Follows route plans, collects orders offline, records GPS visits.</p>
+              <div class="role-platform"><span class="badge badge-green">Mobile (Primary)</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="role-card">
+            <div class="role-avatar" style="background:var(--accent-light);">&#128666;</div>
+            <div class="role-info">
+              <h3>Delivery Personnel</h3>
+              <p>Drives delivery vehicle. Confirms loading, delivers goods, collects payments, records returns.</p>
+              <div class="role-platform"><span class="badge badge-cyan">Mobile</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="role-card">
+            <div class="role-avatar" style="background:var(--red-light);">&#127978;</div>
+            <div class="role-info">
+              <h3>Shop Owner (Retailer)</h3>
+              <p>End customer. Views orders, delivery status, invoices, payments. Can optionally place orders.</p>
+              <div class="role-platform">
+                <span class="badge badge-cyan">CustomerPortal</span>
+                <span class="badge badge-purple">Mobile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Platforms</div>
+        <h2>System Components</h2>
+        <p>One monolithic backend serving multiple frontend applications</p>
+      </div>
+      <div class="card-grid card-grid-4">
+        <div class="card" style="border-top: 3px solid var(--primary);">
+          <div class="card-icon card-icon-blue">&#128187;</div>
+          <h3>AdminApp</h3>
+          <p>Distributor administration and operations management. Orders, inventory, vehicles, routes, settings.</p>
+          <div style="margin-top:12px;">
+            <span class="badge badge-blue">React 18.2</span>
+            <span class="badge badge-blue">Port 3000</span>
+          </div>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--green);">
+          <div class="card-icon card-icon-green">&#128181;</div>
+          <h3>FinanceApp</h3>
+          <p>Finance, accounting, invoicing, and payment management. Vouchers, ledger, reconciliation, reports.</p>
+          <div style="margin-top:12px;">
+            <span class="badge badge-green">React 18.2</span>
+            <span class="badge badge-green">Port 3001</span>
+          </div>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--accent);">
+          <div class="card-icon card-icon-cyan">&#127760;</div>
+          <h3>CustomerPortal</h3>
+          <p>Self-service portal for shop owners and vendors. Order history, invoices, statements, catalog management.</p>
+          <div style="margin-top:12px;">
+            <span class="badge badge-cyan">React 18.2</span>
+            <span class="badge badge-cyan">Port 3002</span>
+          </div>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--purple);">
+          <div class="card-icon card-icon-purple">&#128241;</div>
+          <h3>Mobile App</h3>
+          <p>Offline-first app for Sales Reps and Delivery Personnel. Order collection, delivery confirmation, GPS tracking.</p>
+          <div style="margin-top:12px;">
+            <span class="badge badge-purple">React Native</span>
+            <span class="badge badge-purple">Android/iOS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY HIGHLIGHTS -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Key Highlights</div>
+        <h2>Why This Architecture</h2>
+      </div>
+      <div class="card-grid card-grid-3">
+        <div class="card">
+          <div class="card-icon card-icon-green">&#128268;</div>
+          <h3>Offline-First Mobile</h3>
+          <p>All field operations work offline with SQLite local DB. Data syncs automatically when connectivity is restored. Idempotency keys prevent duplicates.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-blue">&#128218;</div>
+          <h3>Unified Voucher Module</h3>
+          <p>Single header+line pattern handles Invoices, Receipts, Delivery Notes, Credit Notes, and Loading Notes. Auto-numbered, PDF-ready via JasperReports.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-orange">&#128274;</div>
+          <h3>Enterprise-Grade Security</h3>
+          <p>JWT authentication, BCrypt password hashing, RBAC with granular permissions, TLS 1.3, PCI-DSS compliance, and comprehensive audit logging.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-purple">&#128640;</div>
+          <h3>Monolithic Simplicity</h3>
+          <p>Single WAR deployment on WildFly 31. Simpler DevOps, easier debugging, lower infrastructure cost. Docker Compose for all services.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-cyan">&#128200;</div>
+          <h3>Real-Time Analytics</h3>
+          <p>JasperReports for PDF/Excel generation. Recharts dashboards. Sales, inventory, delivery, and financial reports with date range filters.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon card-icon-red">&#127758;</div>
+          <h3>Multi-Channel Notifications</h3>
+          <p>Push (FCM/APNs), Email (Jakarta Mail), SMS, and WhatsApp (Meta Cloud API). Configurable per user and event type.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK TECH OVERVIEW -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Technology</div>
+        <h2>Core Technology Stack</h2>
+        <p>Enterprise Java backend with modern React frontends</p>
+      </div>
+      <div class="card-grid card-grid-3">
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2.5rem;margin-bottom:12px;">&#9749;</div>
+          <h3>Backend</h3>
+          <p style="margin-bottom:16px;">Java 17 &bull; Jakarta EE 10 &bull; WildFly 31</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+            <span class="badge badge-blue">JAX-RS</span>
+            <span class="badge badge-blue">EJB</span>
+            <span class="badge badge-blue">Hibernate 6.2</span>
+            <span class="badge badge-blue">JWT</span>
+            <span class="badge badge-blue">JasperReports</span>
+          </div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2.5rem;margin-bottom:12px;">&#9881;</div>
+          <h3>Frontend</h3>
+          <p style="margin-bottom:16px;">React 18.2 &bull; TypeScript 5.3 &bull; Vite 5.0</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+            <span class="badge badge-cyan">Tailwind CSS</span>
+            <span class="badge badge-cyan">Zustand</span>
+            <span class="badge badge-cyan">Recharts</span>
+            <span class="badge badge-cyan">React Query</span>
+            <span class="badge badge-cyan">Axios</span>
+          </div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2.5rem;margin-bottom:12px;">&#128450;</div>
+          <h3>Infrastructure</h3>
+          <p style="margin-bottom:16px;">MariaDB 10.6 &bull; Redis 5.0.2 &bull; Docker</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+            <span class="badge badge-green">Nginx</span>
+            <span class="badge badge-green">Docker Compose</span>
+            <span class="badge badge-green">FCM</span>
+            <span class="badge badge-green">WhatsApp API</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>Explore the Full Specification</h2>
+    <p>Dive into the architecture, database schema, 135 API endpoints, and 6-phase project timeline.</p>
+    <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="architecture.html" style="display:inline-block;padding:12px 28px;background:white;color:var(--primary);border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;">View Architecture</a>
+      <a href="features.html" style="display:inline-block;padding:12px 28px;background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;">View Features</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">MVDSMS &mdash; Multi-Vendor Distribution & Sales Management System</div>
+    <p>A project of <strong>TecCoop</strong> &mdash; Elevating Cooperatives to the next level by using technology</p>
+    <p>Developed by <strong>Temco Bank Web Services</strong> &bull; SRS v2.0 &bull; February 2026</p>
+    <p style="font-size:0.75rem;margin-top:4px;">TecCoop &mdash; No.128, Highlevel Road, Nugegoda &bull; +94 70 363 0683</p>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="features.html">Features</a>
+      <a href="database.html">Database</a>
+      <a href="api.html">API</a>
+      <a href="timeline.html">Timeline</a>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    // Mobile menu toggle
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Mobile screen switcher
+    function switchScreen(screenName) {
+      // Update tabs
+      document.querySelectorAll('.screen-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.screen === screenName);
+      });
+      // Update feature lists
+      document.querySelectorAll('.feature-list').forEach(list => {
+        list.classList.toggle('active', list.dataset.screen === screenName);
+      });
+      // Update phone screens
+      document.querySelectorAll('.phone-screen-content').forEach(screen => {
+        screen.classList.toggle('active', screen.dataset.screen === screenName);
+      });
+      // Reset auto-rotation timer
+      resetAutoRotate();
+    }
+
+    // Auto-rotate screens every 5 seconds
+    const screens = ['dashboard', 'order', 'delivery', 'payment'];
+    let currentIdx = 0;
+    let autoRotateTimer;
+
+    function autoRotate() {
+      currentIdx = (currentIdx + 1) % screens.length;
+      switchScreen(screens[currentIdx]);
+    }
+
+    function resetAutoRotate() {
+      clearInterval(autoRotateTimer);
+      currentIdx = screens.indexOf(
+        document.querySelector('.screen-tab.active')?.dataset.screen || 'dashboard'
+      );
+      autoRotateTimer = setInterval(autoRotate, 5000);
+    }
+
+    // Start auto-rotation
+    autoRotateTimer = setInterval(autoRotate, 5000);
+  </script>
+</body>
+</html>

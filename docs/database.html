@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Schema — MVDSMS | TecCoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><img src="logo.svg" alt="TecCoop"></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="database.html" class="active">Database</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="timeline.html">Timeline</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>Database Schema</h1>
+    <p>57 tables across 11 groups in MariaDB 10.6 &mdash; fully relational with Hibernate 6.2.x ORM</p>
+  </section>
+
+  <!-- DB OVERVIEW -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Overview</div>
+        <h2>Schema Configuration</h2>
+      </div>
+      <div class="card-grid card-grid-4" style="margin-bottom:48px;">
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2rem;font-weight:800;color:var(--primary);">57</div>
+          <p style="font-size:0.85rem;color:var(--gray-600);">Total Tables</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2rem;font-weight:800;color:var(--accent);">11</div>
+          <p style="font-size:0.85rem;color:var(--gray-600);">Table Groups</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace;">mvdsms_system</div>
+          <p style="font-size:0.85rem;color:var(--gray-600);">Schema Name</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--orange);font-family:'JetBrains Mono',monospace;">snake_case</div>
+          <p style="font-size:0.85rem;color:var(--gray-600);">Naming Convention</p>
+        </div>
+      </div>
+
+      <div class="card-grid card-grid-3" style="margin-bottom:48px;">
+        <div class="card">
+          <h3>&#128450; Database Engine</h3>
+          <p>MariaDB 10.6 with JDBC 3.x / MySQL Connector 8.0</p>
+        </div>
+        <div class="card">
+          <h3>&#9881; ORM Layer</h3>
+          <p>Hibernate 6.2.x (JPA) with Jakarta Persistence annotations</p>
+        </div>
+        <div class="card">
+          <h3>&#128273; Primary Keys</h3>
+          <p><code>BIGINT AUTO_INCREMENT</code> on all tables. UUID idempotency keys for offline records.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE GROUPS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Table Groups</div>
+        <h2>All 57 Tables by Domain</h2>
+        <p>Click each group to see the tables it contains</p>
+      </div>
+
+      <!-- Group A -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128100; Group A &mdash; User & Authentication</span>
+          </div>
+          <span class="schema-group-count">9 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; general_user_profile</span>
+            <span class="schema-table-tag">&#128203; general_role</span>
+            <span class="schema-table-tag">&#128203; user_role</span>
+            <span class="schema-table-tag">&#128203; general_permission</span>
+            <span class="schema-table-tag">&#128203; role_permission</span>
+            <span class="schema-table-tag">&#128203; user_address</span>
+            <span class="schema-table-tag">&#128203; user_document</span>
+            <span class="schema-table-tag">&#128203; user_session</span>
+            <span class="schema-table-tag">&#128203; user_otp</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>general_user_profile</strong> is the central user table with username, email, phone, password_hash, display_name, profile_photo_url, is_active, is_verified, and last_login_at. Supports JWT auth via <strong>user_session</strong> (access/refresh tokens, device info, IP) and OTP verification via <strong>user_otp</strong>. RBAC implemented through <strong>general_role</strong> &rarr; <strong>role_permission</strong> &rarr; <strong>general_permission</strong> chain. Users can have multiple roles via <strong>user_role</strong> (many-to-many).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group B -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#127970; Group B &mdash; Organization & Relationships</span>
+          </div>
+          <span class="schema-group-count">7 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; general_organization_profile</span>
+            <span class="schema-table-tag">&#128203; org_address</span>
+            <span class="schema-table-tag">&#128203; org_contact_person</span>
+            <span class="schema-table-tag">&#128203; org_bank_account</span>
+            <span class="schema-table-tag">&#128203; org_document</span>
+            <span class="schema-table-tag">&#128203; org_user_assignment</span>
+            <span class="schema-table-tag">&#128203; distributor_shop</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>general_organization_profile</strong> stores all organization types (VENDOR, DISTRIBUTOR, SHOP) with org_code, legal_name, trade_name, tax_id, org_type ENUM, and verification status. Each org can have multiple addresses (<strong>org_address</strong> with geo_fence_radius_m for GPS validation), contact persons, bank accounts, and documents. <strong>distributor_shop</strong> defines the business relationship between distributors and shops including credit_limit, payment_terms_days, and price_tier.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group C -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128230; Group C &mdash; Product & Catalog</span>
+          </div>
+          <span class="schema-group-count">5 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; product_category</span>
+            <span class="schema-table-tag">&#128203; product</span>
+            <span class="schema-table-tag">&#128203; product_image</span>
+            <span class="schema-table-tag">&#128203; product_price_tier</span>
+            <span class="schema-table-tag">&#128203; distributor_product</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>product_category</strong> supports hierarchical categories via self-referencing parent_category_id. <strong>product</strong> stores SKU, name, description, unit_of_measure, weight, dimensions, barcode, and is owned by a vendor (FK to organization). <strong>product_price_tier</strong> defines pricing levels (MRP, wholesale, distributor). <strong>distributor_product</strong> links distributors to vendor products with their own selling_price and min_order_qty.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group D -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128451; Group D &mdash; Inventory & Warehouse</span>
+          </div>
+          <span class="schema-group-count">6 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; warehouse</span>
+            <span class="schema-table-tag">&#128203; inventory</span>
+            <span class="schema-table-tag">&#128203; inventory_batch</span>
+            <span class="schema-table-tag">&#128203; inventory_movement</span>
+            <span class="schema-table-tag">&#128203; goods_received_note</span>
+            <span class="schema-table-tag">&#128203; goods_received_note_item</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>inventory</strong> tracks quantity_on_hand, quantity_reserved, quantity_available (computed), and reorder_level per product per warehouse. <strong>inventory_batch</strong> enables lot tracking with batch_number, manufacturing_date, expiry_date. <strong>inventory_movement</strong> logs every stock change with movement_type ENUM (STOCK_IN, STOCK_OUT, ADJUSTMENT, LOADING, RETURN, TRANSFER). <strong>goods_received_note</strong> records vendor shipments with line items.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group E -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128196; Group E &mdash; Sales Order</span>
+          </div>
+          <span class="schema-group-count">3 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; sales_order</span>
+            <span class="schema-table-tag">&#128203; sales_order_item</span>
+            <span class="schema-table-tag">&#128203; order_status_history</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>sales_order</strong> contains order_number, order_date, status ENUM (DRAFT through COMPLETED), subtotal, tax_total, discount_total, grand_total, and idempotency_key (UUID for offline dedup). Links to shop, distributor, and sales_rep. <strong>sales_order_item</strong> stores per-product quantities (ordered, approved, loaded, delivered, returned) with unit_price, discount, tax, and line_total. <strong>order_status_history</strong> provides full audit trail of every status transition.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group F -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128666; Group F &mdash; Vehicle & Delivery</span>
+          </div>
+          <span class="schema-group-count">6 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; vehicle</span>
+            <span class="schema-table-tag">&#128203; delivery_trip</span>
+            <span class="schema-table-tag">&#128203; delivery_trip_order</span>
+            <span class="schema-table-tag">&#128203; vehicle_inventory</span>
+            <span class="schema-table-tag">&#128203; delivery_confirmation</span>
+            <span class="schema-table-tag">&#128203; delivery_return</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>vehicle</strong> stores registration_number, vehicle_type, max_weight_capacity_kg, max_volume_capacity_cbm, and default_driver. <strong>delivery_trip</strong> manages trip lifecycle (PLANNED &rarr; LOADING &rarr; LOADED &rarr; IN_TRANSIT &rarr; COMPLETED). <strong>vehicle_inventory</strong> tracks quantity_loaded, quantity_delivered, quantity_returned per product per trip. <strong>delivery_confirmation</strong> captures signature_url, photo_url, GPS coordinates, and timestamp. <strong>delivery_return</strong> records returned items with reason_code ENUM.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group G -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128203; Group G &mdash; Voucher Module (Unified)</span>
+          </div>
+          <span class="schema-group-count">6 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; voucher_type</span>
+            <span class="schema-table-tag">&#128203; voucher_number_sequence</span>
+            <span class="schema-table-tag">&#128203; voucher</span>
+            <span class="schema-table-tag">&#128203; voucher_line</span>
+            <span class="schema-table-tag">&#128203; voucher_tax_summary</span>
+            <span class="schema-table-tag">&#128203; voucher_attachment</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>Unified header+line pattern</strong> for all document types. <strong>voucher_type</strong> defines types: INV (Invoice), REC (Receipt), DN (Delivery Note), CN (Credit Note), DN_LOAD (Loading Note), GRN_V (GRN Voucher) with JasperReports template references. <strong>voucher_number_sequence</strong> manages auto-numbering with format_pattern (e.g., INV-{YEAR}-{SEQ:5}). <strong>voucher</strong> is the header with voucher_number, dates, counterparty, amounts (subtotal, tax, discount, grand_total, amount_paid, balance_due), status, and parent_voucher_id for credit notes. <strong>voucher_line</strong> stores line items. <strong>voucher_tax_summary</strong> aggregates tax by rate.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group H -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128176; Group H &mdash; Payment & Ledger</span>
+          </div>
+          <span class="schema-group-count">4 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; payment</span>
+            <span class="schema-table-tag">&#128203; payment_allocation</span>
+            <span class="schema-table-tag">&#128203; daily_collection_summary</span>
+            <span class="schema-table-tag">&#128203; shop_ledger</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>payment</strong> records each collection with payment_number, amount, payment_method ENUM (CASH, CHEQUE, UPI, BANK_TRANSFER), status ENUM (COLLECTED &rarr; VERIFIED &rarr; DEPOSITED &rarr; CLEARED/BOUNCED), cheque details, and GPS coordinates. <strong>payment_allocation</strong> links payments to specific invoices (many-to-many). <strong>daily_collection_summary</strong> tracks total_cash_collected, total_cheques, total_digital, cash_handed_over with variance detection. <strong>shop_ledger</strong> maintains running_balance per shop with DEBIT/CREDIT entries.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group I -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128205; Group I &mdash; Route & Field Operations</span>
+          </div>
+          <span class="schema-group-count">4 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; route_plan</span>
+            <span class="schema-table-tag">&#128203; route_plan_stop</span>
+            <span class="schema-table-tag">&#128203; shop_visit_photo</span>
+            <span class="schema-table-tag">&#128203; gps_tracking_log</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>route_plan</strong> assigns a sales rep to a date with planned shops. <strong>route_plan_stop</strong> defines each shop visit with visit_sequence, planned vs actual check-in/check-out times, and visit_status. <strong>shop_visit_photo</strong> stores photos captured during visits. <strong>gps_tracking_log</strong> records periodic location updates (latitude, longitude, accuracy, speed, battery_level) for both sales reps and delivery vehicles.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group J -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#9881; Group J &mdash; Tax & Configuration</span>
+          </div>
+          <span class="schema-group-count">3 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; tax_rate</span>
+            <span class="schema-table-tag">&#128203; system_configuration</span>
+            <span class="schema-table-tag">&#128203; currency</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>tax_rate</strong> defines configurable tax rules per name, rate percentage, and applicable region/category. <strong>system_configuration</strong> is a key-value store for feature flags, business rules, and system settings. <strong>currency</strong> stores currency codes, symbols, and exchange rates for multi-currency support.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group K -->
+      <div class="schema-group">
+        <div class="schema-group-header" onclick="this.parentElement.classList.toggle('expanded')">
+          <div>
+            <span class="schema-group-title">&#128220; Group K &mdash; Notification & Audit</span>
+          </div>
+          <span class="schema-group-count">4 tables</span>
+        </div>
+        <div class="schema-group-body">
+          <div class="schema-table-list">
+            <span class="schema-table-tag">&#128203; notification</span>
+            <span class="schema-table-tag">&#128203; notification_preference</span>
+            <span class="schema-table-tag">&#128203; audit_log</span>
+            <span class="schema-table-tag">&#128203; sync_log</span>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.7;">
+              <strong>notification</strong> stores all notifications with type, channel (PUSH, SMS, EMAIL, WHATSAPP), title, body, is_read, and related entity references. <strong>notification_preference</strong> lets users configure which channels they want per event type. <strong>audit_log</strong> records all sensitive operations (entity_type, entity_id, action, old_value, new_value, performed_by, IP address). <strong>sync_log</strong> tracks mobile offline sync operations with conflict detection.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE COUNT SUMMARY -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Summary</div>
+        <h2>Table Count by Group</h2>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>Group</th><th>Domain</th><th>Key Tables</th><th style="text-align:center;">Count</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">A</span></td><td>User & Authentication</td><td><code>general_user_profile</code>, <code>general_role</code>, <code>user_session</code></td><td style="text-align:center;">9</td></tr>
+            <tr><td><span class="badge badge-cyan">B</span></td><td>Organization & Relationships</td><td><code>general_organization_profile</code>, <code>distributor_shop</code></td><td style="text-align:center;">7</td></tr>
+            <tr><td><span class="badge badge-green">C</span></td><td>Product & Catalog</td><td><code>product</code>, <code>product_category</code>, <code>distributor_product</code></td><td style="text-align:center;">5</td></tr>
+            <tr><td><span class="badge badge-orange">D</span></td><td>Inventory & Warehouse</td><td><code>inventory</code>, <code>inventory_movement</code>, <code>goods_received_note</code></td><td style="text-align:center;">6</td></tr>
+            <tr><td><span class="badge badge-red">E</span></td><td>Sales Order</td><td><code>sales_order</code>, <code>sales_order_item</code>, <code>order_status_history</code></td><td style="text-align:center;">3</td></tr>
+            <tr><td><span class="badge badge-purple">F</span></td><td>Vehicle & Delivery</td><td><code>delivery_trip</code>, <code>vehicle_inventory</code>, <code>delivery_confirmation</code></td><td style="text-align:center;">6</td></tr>
+            <tr><td><span class="badge badge-blue">G</span></td><td>Voucher Module</td><td><code>voucher</code>, <code>voucher_line</code>, <code>voucher_type</code></td><td style="text-align:center;">6</td></tr>
+            <tr><td><span class="badge badge-green">H</span></td><td>Payment & Ledger</td><td><code>payment</code>, <code>payment_allocation</code>, <code>shop_ledger</code></td><td style="text-align:center;">4</td></tr>
+            <tr><td><span class="badge badge-cyan">I</span></td><td>Route & Field Ops</td><td><code>route_plan</code>, <code>gps_tracking_log</code></td><td style="text-align:center;">4</td></tr>
+            <tr><td><span class="badge badge-orange">J</span></td><td>Tax & Configuration</td><td><code>tax_rate</code>, <code>system_configuration</code>, <code>currency</code></td><td style="text-align:center;">3</td></tr>
+            <tr><td><span class="badge badge-purple">K</span></td><td>Notification & Audit</td><td><code>notification</code>, <code>audit_log</code>, <code>sync_log</code></td><td style="text-align:center;">4</td></tr>
+            <tr style="background:var(--gray-100);font-weight:700;"><td></td><td><strong>Total</strong></td><td></td><td style="text-align:center;"><strong>57</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">MVDSMS &mdash; Multi-Vendor Distribution & Sales Management System</div>
+    <p>A project of <strong>TecCoop</strong> &mdash; Elevating Cooperatives to the next level by using technology</p>
+    <p>Developed by <strong>Temco Bank Web Services</strong> &bull; SRS v2.0 &bull; February 2026</p>
+    <p style="font-size:0.75rem;margin-top:4px;">TecCoop &mdash; No.128, Highlevel Road, Nugegoda &bull; +94 70 363 0683</p>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="features.html">Features</a>
+      <a href="database.html">Database</a>
+      <a href="api.html">API</a>
+      <a href="timeline.html">Timeline</a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline & Risk — MVDSMS | TecCoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><img src="logo.svg" alt="TecCoop"></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="database.html">Database</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="timeline.html" class="active">Timeline</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <h1>Project Timeline & Risk Assessment</h1>
+    <p>6-phase delivery plan over 34 weeks (~8.5 months) with comprehensive risk mitigation</p>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Timeline</div>
+        <h2>6-Phase Delivery Plan</h2>
+        <p>34 weeks total &mdash; each phase delivers working, testable functionality</p>
+      </div>
+
+      <!-- Summary bar -->
+      <div style="display:flex;gap:4px;margin-bottom:48px;border-radius:12px;overflow:hidden;height:40px;">
+        <div style="flex:6;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;">P1 &bull; 6w</div>
+        <div style="flex:8;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;">P2 &bull; 8w</div>
+        <div style="flex:6;background:var(--green);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;">P3 &bull; 6w</div>
+        <div style="flex:6;background:var(--orange);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;">P4 &bull; 6w</div>
+        <div style="flex:4;background:var(--purple);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;">P5 &bull; 4w</div>
+        <div style="flex:4;background:var(--red);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;">P6 &bull; 4w</div>
+      </div>
+
+      <div class="timeline">
+        <!-- Phase 1 -->
+        <div class="timeline-item">
+          <div class="timeline-phase">Phase 1</div>
+          <div class="timeline-title">Foundation</div>
+          <div class="timeline-duration">&#128197; 6 weeks</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9749; Backend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">JPA entities (Groups A, B, J). Auth EJBs (JWT, BCrypt, OTP). User/Org/Role JAX-RS endpoints. MariaDB schema setup. Docker Compose config.</p>
+            </div>
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9881; Frontend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">AdminApp: Login, User Management, Org Management screens. React project setup (Vite + Tailwind + Zustand).</p>
+            </div>
+          </div>
+          <div class="timeline-deliverables">
+            <span class="timeline-tag">Authentication</span>
+            <span class="timeline-tag">User Management</span>
+            <span class="timeline-tag">Organization CRUD</span>
+            <span class="timeline-tag">Role-Based Access</span>
+            <span class="timeline-tag">Docker Setup</span>
+            <span class="timeline-tag">MariaDB Schema</span>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="timeline-item">
+          <div class="timeline-phase">Phase 2</div>
+          <div class="timeline-title">Core Operations</div>
+          <div class="timeline-duration">&#128197; 8 weeks</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9749; Backend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">Product/Catalog EJBs & endpoints (Group C). Order Management EJBs & endpoints (Group E). Inventory EJBs & endpoints (Group D). Redis cache integration.</p>
+            </div>
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9881; Frontend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">AdminApp: Product Catalog, Order Management, Inventory screens. Mobile App: Sales Rep &mdash; Home, Shop Visit, Order Creation, Order History (React Native + offline SQLite).</p>
+            </div>
+          </div>
+          <div class="timeline-deliverables">
+            <span class="timeline-tag">Product Catalog</span>
+            <span class="timeline-tag">Order Lifecycle</span>
+            <span class="timeline-tag">Inventory Tracking</span>
+            <span class="timeline-tag">GRN</span>
+            <span class="timeline-tag">Redis Cache</span>
+            <span class="timeline-tag">Sales Rep Mobile App</span>
+            <span class="timeline-tag">Offline SQLite</span>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="timeline-item">
+          <div class="timeline-phase">Phase 3</div>
+          <div class="timeline-title">Delivery & Logistics</div>
+          <div class="timeline-duration">&#128197; 6 weeks</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9749; Backend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">Vehicle/Delivery EJBs & endpoints (Group F). Route Planning EJBs & endpoints (Group I). GPS tracking endpoint. Voucher module &mdash; DN & Loading Note (Group G partial).</p>
+            </div>
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9881; Frontend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">AdminApp: Vehicle Management, Trip Planner, Route Planning, Loading Sheet. Mobile App: Delivery Personnel &mdash; Trip, Loading, Delivery Confirmation screens.</p>
+            </div>
+          </div>
+          <div class="timeline-deliverables">
+            <span class="timeline-tag">Vehicle Management</span>
+            <span class="timeline-tag">Delivery Trips</span>
+            <span class="timeline-tag">Route Planning</span>
+            <span class="timeline-tag">GPS Tracking</span>
+            <span class="timeline-tag">Delivery Notes</span>
+            <span class="timeline-tag">Loading Notes</span>
+            <span class="timeline-tag">Delivery App</span>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="timeline-item">
+          <div class="timeline-phase">Phase 4</div>
+          <div class="timeline-title">Financial</div>
+          <div class="timeline-duration">&#128197; 6 weeks</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9749; Backend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">Voucher module &mdash; Invoice, Receipt, Credit Note (Group G complete). Payment EJBs & endpoints (Group H). Shop Ledger logic. JasperReports templates (Invoice, DN, Receipt, Loading Note, Statement).</p>
+            </div>
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9881; Frontend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">FinanceApp: Full setup &mdash; Dashboard, Voucher Management, Payment Management, Shop Ledger, Financial Reports. CustomerPortal: Shop Owner & Vendor views.</p>
+            </div>
+          </div>
+          <div class="timeline-deliverables">
+            <span class="timeline-tag">Invoicing</span>
+            <span class="timeline-tag">Receipts</span>
+            <span class="timeline-tag">Credit Notes</span>
+            <span class="timeline-tag">Payment Collection</span>
+            <span class="timeline-tag">Shop Ledger</span>
+            <span class="timeline-tag">JasperReports PDFs</span>
+            <span class="timeline-tag">FinanceApp</span>
+            <span class="timeline-tag">CustomerPortal</span>
+          </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="timeline-item">
+          <div class="timeline-phase">Phase 5</div>
+          <div class="timeline-title">Analytics & Polish</div>
+          <div class="timeline-duration">&#128197; 4 weeks</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9749; Backend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">Report EJBs (JasperReports integration). Notification EJBs (FCM, Jakarta Mail, WhatsApp API). Sync engine (push/pull/conflict resolution). Audit logging.</p>
+            </div>
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9881; Frontend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">AdminApp: Reports & Dashboards (Recharts). Mobile App: Offline sync engine, Daily Summary, Payment Collection, Notifications. All apps: Dark mode, multi-language.</p>
+            </div>
+          </div>
+          <div class="timeline-deliverables">
+            <span class="timeline-tag">Reports & Dashboards</span>
+            <span class="timeline-tag">Notifications (FCM/Email/WhatsApp)</span>
+            <span class="timeline-tag">Offline Sync Engine</span>
+            <span class="timeline-tag">Audit Logging</span>
+            <span class="timeline-tag">Dark Mode</span>
+            <span class="timeline-tag">Multi-Language</span>
+          </div>
+        </div>
+
+        <!-- Phase 6 -->
+        <div class="timeline-item">
+          <div class="timeline-phase">Phase 6</div>
+          <div class="timeline-title">Testing & Launch</div>
+          <div class="timeline-duration">&#128197; 4 weeks</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9749; Backend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">JUnit 5 + Mockito test suites (80% coverage). Performance testing (JMeter). Security audit (OWASP). Production deployment (Docker + Nginx).</p>
+            </div>
+            <div>
+              <p style="font-size:0.78rem;font-weight:700;color:var(--gray-700);margin-bottom:8px;">&#9881; Frontend</p>
+              <p style="font-size:0.85rem;color:var(--gray-600);line-height:1.6;">UAT with field users. Bug fixes. App Store / Play Store submission. User training materials.</p>
+            </div>
+          </div>
+          <div class="timeline-deliverables">
+            <span class="timeline-tag">Unit Tests (80%)</span>
+            <span class="timeline-tag">Performance Testing</span>
+            <span class="timeline-tag">Security Audit</span>
+            <span class="timeline-tag">UAT</span>
+            <span class="timeline-tag">Production Deploy</span>
+            <span class="timeline-tag">App Store Submission</span>
+            <span class="timeline-tag">Training Materials</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total -->
+      <div style="text-align:center;margin-top:48px;padding:24px;background:var(--white);border:2px solid var(--primary);border-radius:14px;">
+        <div style="font-size:2.5rem;font-weight:800;color:var(--primary);">34 weeks</div>
+        <div style="font-size:1rem;color:var(--gray-600);margin-top:4px;">~8.5 months total project duration</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RISK ASSESSMENT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Risk Assessment</div>
+        <h2>Risk Matrix</h2>
+        <p>12 identified risks with probability, impact, severity, and mitigation strategies</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>Risk</th><th>Probability</th><th>Impact</th><th>Severity</th><th>Mitigation Strategy</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>R1</td>
+              <td>Poor network connectivity in field areas</td>
+              <td><span class="badge badge-red">High</span></td>
+              <td><span class="badge badge-red">High</span></td>
+              <td><span class="risk-severity risk-critical">Critical</span></td>
+              <td style="font-size:0.82rem;">Offline-first architecture with SQLite local DB, sync engine with idempotency keys, conflict resolution via server-side validation</td>
+            </tr>
+            <tr>
+              <td>R2</td>
+              <td>User adoption resistance (Sales Reps, Delivery)</td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="badge badge-red">High</span></td>
+              <td><span class="risk-severity risk-high">High</span></td>
+              <td style="font-size:0.82rem;">Intuitive mobile UI (&lt; 5 taps for order), training programs, phased rollout starting with tech-savvy reps, feedback loops</td>
+            </tr>
+            <tr>
+              <td>R3</td>
+              <td>Data loss during offline sync conflicts</td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="badge badge-red">High</span></td>
+              <td><span class="risk-severity risk-high">High</span></td>
+              <td style="font-size:0.82rem;">Timestamp-based conflict resolution, idempotency_key dedup, server-side inventory re-validation, sync_log for audit</td>
+            </tr>
+            <tr>
+              <td>R4</td>
+              <td>Payment fraud or misappropriation</td>
+              <td><span class="badge badge-blue">Low</span></td>
+              <td><span class="badge badge-red">High</span></td>
+              <td><span class="risk-severity risk-high">High</span></td>
+              <td style="font-size:0.82rem;">GPS-tagged payments, daily_collection_summary with variance tracking, dual verification workflow, audit_log on all financial ops</td>
+            </tr>
+            <tr>
+              <td>R5</td>
+              <td>WildFly monolith performance bottleneck</td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="risk-severity risk-medium">Medium</span></td>
+              <td style="font-size:0.82rem;">Redis caching (Jedis) for hot data, MariaDB read replicas for reports, JPA query optimization, connection pooling</td>
+            </tr>
+            <tr>
+              <td>R6</td>
+              <td>Scope creep during development</td>
+              <td><span class="badge badge-red">High</span></td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="risk-severity risk-high">High</span></td>
+              <td style="font-size:0.82rem;">Phased delivery with clear milestones, strict change management, feature flags via system_configuration, MVP-first approach</td>
+            </tr>
+            <tr>
+              <td>R7</td>
+              <td>JasperReports PDF generation latency</td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="badge badge-blue">Low</span></td>
+              <td><span class="risk-severity risk-medium">Medium</span></td>
+              <td style="font-size:0.82rem;">Async PDF generation via EJB @Asynchronous, pre-compiled .jasper templates, Redis caching of generated PDFs</td>
+            </tr>
+            <tr>
+              <td>R8</td>
+              <td>Mobile app compatibility issues</td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="risk-severity risk-medium">Medium</span></td>
+              <td style="font-size:0.82rem;">React Native cross-platform, minimum OS versions (Android 8.0+, iOS 14.0+), device testing matrix, OTA updates</td>
+            </tr>
+            <tr>
+              <td>R9</td>
+              <td>MariaDB data growth / query performance</td>
+              <td><span class="badge badge-blue">Low</span></td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="risk-severity risk-medium">Medium</span></td>
+              <td style="font-size:0.82rem;">Table partitioning for gps_tracking_log and audit_log, archival strategy, proper indexing, query profiling</td>
+            </tr>
+            <tr>
+              <td>R10</td>
+              <td>WhatsApp API rate limits / downtime</td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="badge badge-blue">Low</span></td>
+              <td><span class="risk-severity risk-low">Low</span></td>
+              <td style="font-size:0.82rem;">Fallback to SMS/Email, message queue for retry, Meta WhatsApp Cloud API rate limit monitoring</td>
+            </tr>
+            <tr>
+              <td>R11</td>
+              <td>Security breach / unauthorized access</td>
+              <td><span class="badge badge-blue">Low</span></td>
+              <td><span class="badge badge-red">High</span></td>
+              <td><span class="risk-severity risk-high">High</span></td>
+              <td style="font-size:0.82rem;">JWT with short expiry + refresh tokens, BCrypt hashing, RBAC with granular permissions, TLS 1.3, audit_log, IP whitelisting</td>
+            </tr>
+            <tr>
+              <td>R12</td>
+              <td>Key personnel dependency</td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="badge badge-orange">Medium</span></td>
+              <td><span class="risk-severity risk-medium">Medium</span></td>
+              <td style="font-size:0.82rem;">Documentation, code reviews, knowledge sharing sessions, modular codebase with clear separation</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSINESS PROCESS FLOWS -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Process Flows</div>
+        <h2>Key Business Processes</h2>
+        <p>End-to-end flows showing how data moves through the system</p>
+      </div>
+
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:16px;">&#128666; Order-to-Delivery Flow</h3>
+          <div style="font-size:0.85rem;color:var(--gray-700);line-height:2;">
+            <div>1. Sales Rep checks in at shop <span class="badge badge-blue">route_plan_stop</span></div>
+            <div>2. Browses catalog, checks stock <span class="badge badge-cyan">distributor_product</span> <span class="badge badge-green">inventory</span></div>
+            <div>3. Collects order (offline) <span class="badge badge-blue">sales_order</span></div>
+            <div>4. Submits &rarr; Distributor reviews</div>
+            <div>5. Approved &rarr; Inventory reserved <span class="badge badge-green">inventory_movement</span></div>
+            <div>6. Assigned to delivery trip <span class="badge badge-orange">delivery_trip_order</span></div>
+            <div>7. Warehouse loads vehicle <span class="badge badge-orange">vehicle_inventory</span></div>
+            <div>8. DN voucher generated <span class="badge badge-purple">voucher (DN)</span></div>
+            <div>9. Delivery confirmed <span class="badge badge-orange">delivery_confirmation</span></div>
+            <div>10. Invoice generated <span class="badge badge-purple">voucher (INV)</span></div>
+            <div>11. Payment collected <span class="badge badge-green">payment</span></div>
+            <div>12. Order &rarr; COMPLETED</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:16px;">&#128176; Payment & Ledger Flow</h3>
+          <div style="font-size:0.85rem;color:var(--gray-700);line-height:2;">
+            <div>1. Invoice generated after delivery <span class="badge badge-purple">voucher (INV)</span></div>
+            <div>2. shop_ledger: DEBIT entry posted <span class="badge badge-green">shop_ledger</span></div>
+            <div>3. Payment collected (Cash/Cheque/UPI) <span class="badge badge-blue">payment</span></div>
+            <div>4. Receipt voucher generated <span class="badge badge-purple">voucher (REC)</span></div>
+            <div>5. Payment allocated to invoice <span class="badge badge-blue">payment_allocation</span></div>
+            <div>6. shop_ledger: CREDIT entry posted</div>
+            <div>7. Daily collection summary submitted <span class="badge badge-cyan">daily_collection_summary</span></div>
+            <div>8. Distributor verifies &amp; reconciles</div>
+            <div>9. Payment: COLLECTED &rarr; VERIFIED &rarr; DEPOSITED</div>
+            <div>10. If cheque bounced &rarr; DEBIT reversal</div>
+            <div>11. If overdue &rarr; notification sent</div>
+            <div>12. Credit limit checked for new orders</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-grid card-grid-2" style="margin-top:24px;">
+        <div class="card">
+          <h3 style="margin-bottom:16px;">&#128451; Inventory Flow</h3>
+          <div style="font-size:0.85rem;color:var(--gray-700);line-height:2;">
+            <div>1. Vendor ships goods <span class="badge badge-blue">goods_received_note</span></div>
+            <div>2. GRN verified &rarr; stock increases <span class="badge badge-green">inventory</span></div>
+            <div>3. Batch created <span class="badge badge-cyan">inventory_batch</span></div>
+            <div>4. Order approved &rarr; qty reserved</div>
+            <div>5. Loaded onto vehicle &rarr; qty decreases <span class="badge badge-orange">vehicle_inventory</span></div>
+            <div>6. Delivered &rarr; vehicle inventory decreases</div>
+            <div>7. Returns &rarr; stock restored <span class="badge badge-red">delivery_return</span></div>
+            <div>8. All movements logged <span class="badge badge-purple">inventory_movement</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:16px;">&#128203; Voucher Lifecycle</h3>
+          <div style="font-size:0.85rem;color:var(--gray-700);line-height:2;">
+            <div>1. Trigger event (delivery, payment, return)</div>
+            <div>2. Next number from sequence <span class="badge badge-blue">voucher_number_sequence</span></div>
+            <div>3. Voucher created with line items <span class="badge badge-purple">voucher + voucher_line</span></div>
+            <div>4. Tax summary calculated <span class="badge badge-cyan">voucher_tax_summary</span></div>
+            <div>5. PDF generated (JasperReports)</div>
+            <div>6. Sent via Email/WhatsApp/SMS/Print</div>
+            <div>7. Status: GENERATED &rarr; SENT</div>
+            <div>8. For INV: SENT &rarr; PARTIALLY_PAID &rarr; PAID</div>
+            <div>9. Past due_date &rarr; OVERDUE</div>
+            <div>10. Credit Note links via parent_voucher_id</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPERATING ENVIRONMENT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Environment</div>
+        <h2>Operating Environment & Constraints</h2>
+      </div>
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <h3>&#128241; Client Requirements</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;font-size:0.85rem;color:var(--gray-700);">
+            <li style="padding:6px 0;">&#10003; <strong>Mobile:</strong> Android 8.0+ / iOS 14.0+</li>
+            <li style="padding:6px 0;">&#10003; <strong>Web:</strong> Chrome 90+, Firefox 88+, Safari 14+, Edge 90+</li>
+            <li style="padding:6px 0;">&#10003; <strong>Smartphones:</strong> GPS and camera required</li>
+            <li style="padding:6px 0;">&#10003; <strong>Connectivity:</strong> Intermittent (offline-first design)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>&#128736; Design Constraints</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;font-size:0.85rem;color:var(--gray-700);">
+            <li style="padding:6px 0;">&#10003; <strong>Monolithic architecture</strong> &mdash; single WAR on WildFly</li>
+            <li style="padding:6px 0;">&#10003; <strong>Jakarta EE 10</strong> standards (JAX-RS, EJB, JPA)</li>
+            <li style="padding:6px 0;">&#10003; <strong>PCI-DSS compliant</strong> payment processing</li>
+            <li style="padding:6px 0;">&#10003; <strong>Multi-currency</strong> and <strong>multi-language</strong> support</li>
+            <li style="padding:6px 0;">&#10003; <strong>GPS privacy</strong> regulations compliance</li>
+            <li style="padding:6px 0;">&#10003; <strong>Tax compliance</strong> (GST/VAT configurable per region)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>Ready to Build?</h2>
+    <p>This SRS defines a comprehensive, production-ready system. 57 tables, 135 endpoints, 6 user roles, 11 modules.</p>
+    <div style="margin-top:24px;">
+      <a href="index.html" style="display:inline-block;padding:12px 28px;background:white;color:var(--primary);border-radius:10px;font-weight:700;text-decoration:none;font-size:0.95rem;">Back to Overview</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">MVDSMS &mdash; Multi-Vendor Distribution & Sales Management System</div>
+    <p>A project of <strong>TecCoop</strong> &mdash; Elevating Cooperatives to the next level by using technology</p>
+    <p>Developed by <strong>Temco Bank Web Services</strong> &bull; SRS v2.0 &bull; February 2026</p>
+    <p style="font-size:0.75rem;margin-top:4px;">TecCoop &mdash; No.128, Highlevel Road, Nugegoda &bull; +94 70 363 0683</p>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="features.html">Features</a>
+      <a href="database.html">Database</a>
+      <a href="api.html">API</a>
+      <a href="timeline.html">Timeline</a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
